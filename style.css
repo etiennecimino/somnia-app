@@ -118,14 +118,22 @@ body {
 
 #settings-menu-screen, 
 #genre-selection-screen,
-#sleeptimer-selection-screen,
-#playback-screen { 
+#sleeptimer-selection-screen {
     background-image: url('./Somnia-Bilder/genrescreen.png');
     background-size: cover;
-   	background-position: center;
+    background-position: center;
     background-repeat: no-repeat;
     padding: 24px;
-    justify-content: flex-start;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100svh; /* iPhone Safe Height */
+    overflow-y: auto; /* Scrollbar falls nötig */
+
+    padding-bottom: env(safe-area-inset-bottom, 30px); /* Platz für Button */
+}
+
 }
 
 /* ********************************************* */
@@ -288,3 +296,4 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+
