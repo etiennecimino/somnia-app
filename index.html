@@ -10,302 +10,9 @@
     
     <!-- Lucide Icons für Symbole (Einstellungen, Zurück etc.) -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- INTEGRIERTER STIL (VORHER: style.css) -->
-    <style>
-        /* Konfigurieren der Hauptfarben basierend auf den Wireframes */
-        :root {
-            --color-dark-blue: #2B4162; 
-            --color-light-bg: #F5F5E0; 
-            --color-accent: #E95E95; 
-            --color-button-soft: #BEE3DB; 
-        
-            /* Neue Farben für die Genre-Auswahl */
-            --color-genre-1: #C9D9E9;
-            --color-genre-2: #B0C4DE;
-            --color-genre-3: #FFFFFF;
-            --color-genre-4: #B3D9D9;
-            --color-header-icon: #333333;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-light-bg);
-            overflow-x: hidden;
-        }
-        
-        .app-container {
-            width: 100%;
-            max-width: 480px; 
-            height: 100vh;
-            margin: 0 auto;
-            position: relative;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden; 
-        }
-        
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transition: opacity 0.5s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .hidden-screen {
-            opacity: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .visible-screen {
-            opacity: 1;
-            pointer-events: auto;
-            z-index: 10;
-        }
-        
-        .app-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem; 
-            position: relative; 
-            color: var(--color-header-icon);
-        }
-        
-        .header-title {
-            position: absolute;
-            left: 50%;
-            top: 50%; 
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-dark-blue);
-            z-index: 5;
-        }
-        
-        .header-icon-wrapper {
-            z-index: 10;
-            padding: 0;
-        }
-        
-        /* Screens Styling */
-        #splash-screen {
-            background-image: url('./Somnia-Bilder/schlafendeperson.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: var(--color-light-bg);
-            text-align: center;
-            text-shadow: 0px 2px 8px rgba(0,0,0,0.4); 
-            justify-content: space-between;
-            padding: 15vh 24px;
-        }
-        
-        #splash-screen h1, .splash-bottom-content {
-            z-index: 20; 
-            position: relative; 
-        }
-        
-        #main-menu-screen {
-            background-image: url('./Somnia-Bilder/zweiterscreen.png'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            justify-content: space-between;
-            padding: 24px;
-            color: var(--color-dark-blue); 
-            text-shadow: 0px 0px 4px rgba(255,255,255,0.7); 
-        }
-        
-        #main-menu-screen .flex, #main-menu-screen h2, #main-menu-screen button {
-            z-index: 20;
-            position: relative;
-        }
-        
-        #settings-menu-screen, 
-        #genre-selection-screen,
-        #sleeptimer-selection-screen,
-        #playback-screen { 
-            background-image: url('./Somnia-Bilder/genrescreen.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            padding: 24px;
-            justify-content: flex-start;
-        }
-        
-        /* ********************************************* */
-        /* ATEMÜBUNG ANIMATION & PLACEHOLDER             */
-        /* ********************************************* */
-        
-        .atemuebung {
-            background-image: url('./Somnia-Bilder/atmen.png');
-            /* background-image: url('./Somnia-Bilder/atem_background.jpg'); */
-            background-color: #a0d3f5; /* Hellblaues Fallback */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        
-        /* Animation: Atmen */
-        @keyframes breathe {
-            0% {
-                transform: scale(1); /* Klein */
-            }
-            50% {
-                transform: scale(1.4); /* Groß (Einatmen) */
-            }
-            100% {
-                transform: scale(1); /* Klein (Ausatmen) */
-            }
-        }
-        
-        .breathing-circle {
-            /* 8 Sekunden pro Zyklus (4 ein, 4 aus) */
-            animation: breathe 8s ease-in-out infinite;
-            /* Glatter Schatten */
-            box-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
-        }
-        
-        /* --------------------------------------------- */
-        
-        
-        .settings-menu-item {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            margin-top: 1rem;
-            border-bottom: 1px solid #E0E0E0;
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--color-dark-blue);
-            cursor: pointer;
-            transition: background-color 0.1s;
-        }
-        
-        .settings-menu-item:hover {
-            background-color: #FAFAFA;
-        }
-        
-        .genre-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            width: 100%;
-            max-width: 320px;
-            margin-top: 2rem;
-        }
-        
-        .genre-button {
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--color-dark-blue);
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-            border: 3px solid transparent;
-        }
-        
-        .genre-button:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .genre-button.active {
-            border-color: var(--color-accent);
-            box-shadow: 0 0 10px rgba(233, 94, 149, 0.5);
-        }
-        
-        .timer-button {
-            width: 100%;
-            padding: 1rem;
-            background-color: white;
-            border: 1px solid #E0E0E0;
-            border-radius: 0.75rem;
-            text-align: center;
-            font-size: 1.125rem;
-            color: var(--color-dark-blue);
-            font-weight: 500;
-            transition: background-color 0.1s, font-weight 0.1s;
-        }
-        
-        .timer-button:hover {
-            background-color: #F8F8F8;
-        }
-        
-        .timer-button.active {
-            font-weight: 800;
-            background-color: var(--color-button-soft);
-            border-color: var(--color-button-soft);
-        }
-        #voice-selection-screen {
-            background-image: url('./Somnia-Bilder/genrescreen.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            padding: 24px;
-            justify-content: flex-start;
-        }
-        /* --------------------------------------------- */
-        /* Neuer großer Button im Atemübungs-Screen      */
-        /* --------------------------------------------- */
-        
-        .breathing-skip-button {
-            width: 100%;
-            padding: 1rem;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        
-            background-color: var(--color-button-soft);
-            color: var(--color-dark-blue);
-        
-            border: 2px solid var(--color-dark-blue);
-            border-radius: 1rem;
-        
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        
-            transition: all 0.2s ease-in-out;
-        }
-        
-        .breathing-skip-button:hover {
-            background-color: #d9f4ee; /* etwas heller */
-            transform: scale(1.03);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-        }
-        
-        .breathing-skip-button:active {
-            transform: scale(0.97);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-        }
-        #profile-modal {
-            display: none;
-        }
-        
-        #profile-modal.flex {
-            display: flex;
-        }
-        
-        /* ----- Individueller Hintergrund für den PLAYBACK-SCREEN ----- */
-        #playback-screen {
-            background-image: url('./Somnia-Bilder/playscreen.png'); /* <– Dein Bild hier */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-    </style>
+    
+    <!-- Externe CSS-Datei -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -331,7 +38,7 @@
         <div id="main-menu-screen" class="screen hidden-screen">
             <div class="app-header">
                 <div class="header-icon-wrapper">
-                    <button onclick="transitionToScreen('settings-menu-screen')" aria-label="Einstellungen öffnen" 
+                    <button onclick="transitionToScreen('settings-menu')" aria-label="Einstellungen öffnen" 
                             class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
                         <i data-lucide="settings" class="w-10 h-10"></i>
                     </button>
@@ -350,8 +57,8 @@
             <div class="w-full p-6">
                 <button onclick="transitionToScreen('sleeptimer-selection-screen')" 
                         class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
-                                bg-white text-gray-800 border-2 border-gray-200 
-                                hover:shadow-xl hover:bg-gray-50"
+                               bg-white text-gray-800 border-2 border-gray-200 
+                               hover:shadow-xl hover:bg-gray-50"
                         style="background-color: var(--color-button-soft);">
                     EINSCHLAFROUTINE STARTEN
                 </button>
@@ -372,57 +79,56 @@
             </div>
             <div class="w-full max-w-md mt-8">
                 <h3 class="text-xl font-semibold mb-4 text-gray-700">Grundlegende Voreinstellungen</h3>
-                <div onclick="transitionToScreen('genre-selection-screen')" class="settings-menu-item">
+                <div onclick="transitionToScreen('genre-selection')" class="settings-menu-item">
                     <span>Genre</span>
                     <i data-lucide="chevron-right" class="w-5 h-5"></i>
                 </div>
                 <div onclick="transitionToScreen('voice-selection-screen')" class="settings-menu-item">
+
                     <span>Stimme</span>
                     <i data-lucide="chevron-right" class="w-5 h-5"></i>
                 </div>
             </div>
         </div>
-        
         <!-- 3.5 VOICE SELECTION SCREEN -->
-        <div id="voice-selection-screen" class="screen hidden-screen">
-            <div class="app-header">
-                <div class="header-icon-wrapper">
-                    <button onclick="goBack()" aria-label="Zurück"
-                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <h2 class="header-title">Stimme</h2>
-                <div class="header-icon-wrapper"></div> 
-            </div>
-        
-            <div class="w-full max-w-md mt-10 px-6 space-y-8">
-        
-                <!-- Stimme auswählen -->
-                <div>
-                    <label class="text-lg font-semibold text-gray-800">Stimme</label>
-                    <select id="voice-select" onchange="updateVoiceSetting()"
-                            class="w-full mt-2 p-3 rounded-lg border border-gray-300 bg-white shadow-md">
-                        <option value="Kore">Kore (weiblich, Firm)</option>
-                        <option value="Puck">Puck (männlich, Upbeat)</option>
-                        <option value="Charon">Charon (weiblich, Informative)</option>
-                        <!-- Hier weitere Stimmen einfügen, falls gewünscht -->
-                    </select>
-                </div>
-        
-                <!-- Geschwindigkeit (Hier nicht direkt relevant für die API, aber im UI lassen) -->
-                <div>
-                    <label class="text-lg font-semibold text-gray-800">Geschwindigkeit</label>
-                    <input id="speed-slider" type="range" min="0.5" max="1.5" value="1" step="0.05"
-                            class="w-full mt-3">
-                </div>
-        
-                <button onclick="transitionToScreen('sleeptimer-selection-screen')"
-                        class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg bg-gray-800 text-white">
-                    los geht’s !
-                </button>
-            </div>
+<div id="voice-selection-screen" class="screen hidden-screen">
+    <div class="app-header">
+        <div class="header-icon-wrapper">
+            <button onclick="goBack()" aria-label="Zurück"
+                    class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
         </div>
+        <h2 class="header-title">Stimme</h2>
+        <div class="header-icon-wrapper"></div> 
+    </div>
+
+    <div class="w-full max-w-md mt-10 px-6 space-y-8">
+
+        <!-- Stimme auswählen -->
+        <div>
+            <label class="text-lg font-semibold text-gray-800">Stimme</label>
+            <select id="voice-select" onchange="updateVoiceSetting()"
+                    class="w-full mt-2 p-3 rounded-lg border border-gray-300 bg-white shadow-md">
+                <option value="1">female 1</option>
+                <option value="2">male 2</option>
+            </select>
+        </div>
+
+        <!-- Geschwindigkeit -->
+        <div>
+            <label class="text-lg font-semibold text-gray-800">Geschwindigkeit</label>
+            <input id="speed-slider" type="range" min="0.5" max="1.5" value="1" step="0.05"
+                   class="w-full mt-3">
+        </div>
+
+        <button onclick="transitionToScreen('sleeptimer-selection-screen')"
+                class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg bg-gray-800 text-white">
+            los geht’s !
+        </button>
+    </div>
+</div>
+
 
         <!-- 4. GENRE SELECTION SCREEN -->
         <div id="genre-selection-screen" class="screen hidden-screen">
@@ -437,9 +143,8 @@
                 <div class="header-icon-wrapper"></div> 
             </div>
             <div class="genre-grid">
-                <!-- Beachte: Das 'active' Attribut wird im JS gesetzt/entfernt, aber 'Hörbuch' ist der Standard in der JS-Logik -->
                 <button onclick="selectGenre('Märchen')" class="genre-button" style="background-color: var(--color-genre-1);">Märchen</button>
-                <button onclick="selectGenre('Hörbuch')" class="genre-button" style="background-color: var(--color-genre-2);">Hörbuch</button>
+                <button onclick="selectGenre('Hörbuch')" class="genre-button active" style="background-color: var(--color-genre-2);">Hörbuch</button>
                 <button onclick="selectGenre('White Noise')" class="genre-button" style="background-color: var(--color-genre-3);">White Noise</button>
                 <button onclick="selectGenre('Naturgeräusche')" class="genre-button" style="background-color: var(--color-genre-4);">Naturgeräusche</button>
             </div>
@@ -470,10 +175,11 @@
             <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
             
             <div class="w-full p-6 mt-auto">
+                <!-- WICHTIG: Ruft jetzt die Atemübung auf -->
                 <button onclick="startBreathingExercise()" 
                         class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
-                                bg-gray-800 text-white border-2 border-gray-700 
-                                hover:shadow-xl hover:bg-gray-700"
+                               bg-gray-800 text-white border-2 border-gray-700 
+                               hover:shadow-xl hover:bg-gray-700"
                         style="background-color: var(--color-accent); color: white;">
                     ZUFÄLLIGE ROUTINE STARTEN
                 </button>
@@ -481,6 +187,7 @@
         </div>
 
         <!-- 5.5 ATEMÜBUNG SCREEN -->
+        <!-- Die Klasse 'atemuebung' ist der Platzhalter für das Hintergrundbild -->
         <div id="breathing-screen" class="screen hidden-screen atemuebung flex flex-col items-center justify-center text-center">
             
             <div class="absolute top-12">
@@ -498,11 +205,12 @@
                 </div>
             </div>
 
-            <!-- Fixierter Button am unteren Rand -->
+            <!-- Der Container ist jetzt leer, aber hält den Button dank 'absolute bottom-12' am unteren Rand. -->
             <div class="absolute bottom-12 px-8 w-full">
                <button onclick="skipBreathing()" class="breathing-skip-button">
-                    ÜBERSPRINGEN & GESCHICHTE STARTEN
-                </button>
+    ÜBERSPRINGEN & GESCHICHTE STARTEN
+</button>
+
             </div>
         </div>
         
@@ -517,10 +225,9 @@
                 <div class="header-icon-wrapper"></div> 
             </div>
             
-            <!-- Inhalt des Playback Screens -->
-            <div class="flex flex-col items-center justify-start flex-grow p-8 w-full pt-[20vh]">
-                <h3 id="current-content-title" class="text-2xl font-bold text-gray-800 mb-2 text-center">Titel der Geschichte</h3>
-                <p id="current-content-genre" class="text-lg text-gray-500 mb-8">Genre</p>
+            <div class="flex flex-col items-center justify-start flex-grow p-8 w-full pt-[20vh]"></div>
+                <h3 id="current-content-title" class="text-2xl font-bold text-gray-800 mb-2 text-center"></h3>
+                <p id="current-content-genre" class="text-lg text-gray-500 mb-8"></p>
                 <div class="flex items-center space-x-2 text-3xl font-mono mb-8 p-3 rounded-xl bg-gray-100 shadow-inner">
                     <i data-lucide="clock" class="w-6 h-6 text-gray-500"></i>
                     <span id="countdown-timer" class="text-gray-700 font-extrabold">--:--</span>
@@ -529,13 +236,13 @@
 
                 <div class="flex flex-col items-center w-full mt-auto pb-8">
                     <div class="flex items-center justify-center space-x-6">
-                        <button id="play-button" onclick="togglePlayback(true)" class="bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
+                        <button id="play-button" class="bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         </button>
-                        <button id="pause-button" onclick="togglePlayback(false)" class="hidden bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
+                        <button id="pause-button" class="hidden bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                         </button>
-                        <button id="stop-button" onclick="stopPlayback()" class="bg-red-100 text-red-600 p-4 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center">
+                        <button id="stop-button" class="bg-red-100 text-red-600 p-4 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
                         </button>
                     </div>
@@ -544,6 +251,7 @@
             </div>
         </div>
         
+
         <!-- Message Modal -->
         <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
@@ -551,21 +259,20 @@
                 <button onclick="hideMessage()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">OK</button>
             </div>
         </div>
-        
         <!-- PROFIL-MODAL -->
-        <div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
-                <h2 class="text-xl font-bold mb-4 text-gray-800">Dein Profil</h2>
+<div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Dein Profil</h2>
 
-                <p class="text-gray-700 mb-2"><strong>Gestartete Routinen:</strong> <span id="profile-routines">0</span></p>
-                <p class="text-gray-700 mb-2"><strong>Gesamte Hörzeit:</strong> <span id="profile-time">0</span> min</p>
-                <p class="text-gray-700 mb-4"><strong>Letztes Genre:</strong> <span id="profile-last-genre">–</span></p>
+        <p class="text-gray-700 mb-2"><strong>Gestartete Routinen:</strong> <span id="profile-routines">0</span></p>
+        <p class="text-gray-700 mb-2"><strong>Gesamte Hörzeit:</strong> <span id="profile-time">0</span> min</p>
+        <p class="text-gray-700 mb-4"><strong>Letztes Genre:</strong> <span id="profile-last-genre">–</span></p>
 
-                <button onclick="hideProfile()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
-                    Schließen
-                </button>
-            </div>
-        </div>
+        <button onclick="hideProfile()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+            Schließen
+        </button>
+    </div>
+</div>
 
         
         <!-- Lade-Indikator -->
@@ -581,324 +288,6 @@
 
     </div>
 
-    <!-- INTEGRIERTES JAVASCRIPT (VORHER: script.js) -->
-    <script>
-        let currentScreen = 'splash-screen';
-        const screenHistory = [];
-        let selectedGenre = 'Hörbuch'; // Default
-        let selectedTimerMinutes = 15; // Default
-        let selectedVoice = 'Kore'; // Default
-        let isPlaying = false;
-
-        // Placeholder data for profile
-        let routineCount = 0;
-        let totalTime = 0;
-        let lastGenre = '-';
-        
-        // --- Hilfsfunktionen für Modals ---
-
-        function showMessage(text) {
-            document.getElementById('modal-text').textContent = text;
-            document.getElementById('message-modal').classList.remove('hidden');
-            document.getElementById('message-modal').classList.add('flex');
-        }
-
-        function hideMessage() {
-            document.getElementById('message-modal').classList.remove('flex');
-            document.getElementById('message-modal').classList.add('hidden');
-        }
-        
-        function showLoading() {
-            document.getElementById('loading-overlay').classList.remove('hidden');
-            document.getElementById('loading-overlay').classList.add('flex');
-        }
-
-        function hideLoading() {
-            document.getElementById('loading-overlay').classList.remove('flex');
-            document.getElementById('loading-overlay').classList.add('hidden');
-        }
-
-
-        // --- Navigationsfunktionen ---
-        
-        function transitionToScreen(nextScreenId) {
-            const currentElement = document.getElementById(currentScreen);
-            const nextElement = document.getElementById(nextScreenId);
-        
-            if (currentElement && nextElement) {
-                // Nur speichern, wenn der aktuelle Screen nicht der Startbildschirm ist
-                if (currentScreen !== 'splash-screen' && currentScreen !== 'breathing-screen') {
-                    screenHistory.push(currentScreen);
-                } else if (currentScreen === 'breathing-screen' && nextScreenId !== 'playback-screen') {
-                    // Wenn wir von der Atemübung zurückgehen, ist der Zielscreen der Sleeptimer-Screen
-                    // Hier nur das Zurücksetzen der Animation und Navigation
-                }
-                
-                currentElement.classList.remove('visible-screen');
-                currentElement.classList.add('hidden-screen');
-                
-                nextElement.classList.remove('hidden-screen');
-                nextElement.classList.add('visible-screen');
-                
-                currentScreen = nextScreenId;
-        
-                // Atem-Animation stoppen, wenn wir den Screen verlassen
-                if (currentScreen !== 'breathing-screen') {
-                    stopBreathingAnimation();
-                }
-
-                // Lucide Icons neu rendern
-                lucide.createIcons();
-            }
-        }
-        
-        function goBack() {
-            if (screenHistory.length > 0) {
-                const previousScreenId = screenHistory.pop();
-                
-                const currentElement = document.getElementById(currentScreen);
-                const previousElement = document.getElementById(previousScreenId);
-        
-                if (currentElement && previousElement) {
-                    currentElement.classList.remove('visible-screen');
-                    currentElement.classList.add('hidden-screen');
-                    
-                    previousElement.classList.remove('hidden-screen');
-                    previousElement.classList.add('visible-screen');
-                    
-                    currentScreen = previousScreenId;
-                    lucide.createIcons();
-                }
-            } else {
-                // Fallback für Hauptmenü (z.B. wenn man von Einstellungen zurückgeht)
-                transitionToScreen('main-menu-screen');
-            }
-        }
-        
-        function transitionToMainMenu() {
-            transitionToScreen('main-menu-screen');
-        }
-
-        // --- Einstellungsfunktionen ---
-        
-        function selectGenre(genre) {
-            selectedGenre = genre;
-            const buttons = document.querySelectorAll('.genre-button');
-            buttons.forEach(button => {
-                if (button.textContent.trim() === genre) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
-            // Info anzeigen
-            const infoText = document.querySelector('#genre-selection-screen p');
-            switch (genre) {
-                case 'Märchen':
-                    infoText.textContent = 'Sanfte Erzählungen für Erwachsene und Kinder.';
-                    break;
-                case 'Hörbuch':
-                    infoText.textContent = 'Lange, entspannende Geschichten mit unaufgeregtem Plot.';
-                    break;
-                case 'White Noise':
-                    infoText.textContent = 'Neutrales, konstantes Rauschen zur Ablenkung von Umgebungsgeräuschen.';
-                    break;
-                case 'Naturgeräusche':
-                    infoText.textContent = 'Beruhigende Klänge wie Regen, Wald oder Meeresrauschen.';
-                    break;
-                default:
-                    infoText.textContent = '';
-            }
-        }
-        
-        function setTimerActive(button, minutes) {
-            selectedTimerMinutes = parseInt(minutes);
-            const buttons = document.querySelectorAll('#sleeptimer-selection-screen .timer-button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Info anzeigen
-            const infoText = document.querySelector('#sleeptimer-selection-screen p');
-            if (minutes === '0') {
-                infoText.textContent = 'Die Wiedergabe endet automatisch, wenn das Audio zu Ende ist.';
-            } else {
-                infoText.textContent = `Die Wiedergabe stoppt automatisch nach ${minutes} Minuten.`;
-            }
-        }
-
-        function updateVoiceSetting() {
-            selectedVoice = document.getElementById('voice-select').value;
-            console.log("Ausgewählte Stimme:", selectedVoice);
-        }
-
-        // --- Atemübungsfunktionen ---
-
-        let breathingInterval;
-        let breathingTimeout;
-        
-        function startBreathingExercise() {
-            transitionToScreen('breathing-screen');
-            startBreathingAnimation();
-        }
-
-        function startBreathingAnimation() {
-            const textElement = document.getElementById('breathing-text');
-            const phases = [
-                { text: 'Einatmen', duration: 4000 },
-                { text: 'Ausatmen', duration: 4000 }
-            ];
-            let phaseIndex = 0;
-            
-            // Text sofort setzen
-            textElement.textContent = phases[phaseIndex].text;
-
-            // Timer-Funktion für den Textwechsel
-            function updateText() {
-                phaseIndex = (phaseIndex + 1) % phases.length;
-                textElement.textContent = phases[phaseIndex].text;
-            }
-            
-            // Starte den Intervall (wechselt alle 4 Sekunden)
-            stopBreathingAnimation(); // Sicherstellen, dass keine alten Intervalle laufen
-            breathingInterval = setInterval(updateText, 4000); 
-
-            // Automatischer Skip nach 30 Sekunden (Platzhalter für die Dauer der Atemübung)
-            breathingTimeout = setTimeout(() => {
-                // Check if we are still on the breathing screen before auto-skipping
-                if (currentScreen === 'breathing-screen') {
-                    skipBreathing();
-                }
-            }, 30000); // 30 Sekunden
-        }
-
-        function stopBreathingAnimation() {
-            clearInterval(breathingInterval);
-            clearTimeout(breathingTimeout);
-        }
-        
-        function skipBreathing() {
-            stopBreathingAnimation();
-            
-            // Hier würde die Logik zum Generieren und Starten des Audioinhalts stehen
-            document.getElementById('playback-title').textContent = `${selectedTimerMinutes === 0 ? 'Endlos' : selectedTimerMinutes + ' Min'} Routine`;
-            document.getElementById('current-content-genre').textContent = selectedGenre;
-            document.getElementById('current-content-title').textContent = `${selectedGenre} Geschichte`;
-            
-            transitionToScreen('playback-screen');
-            // Hier sollte das Audio geladen werden...
-
-            // Placeholder:
-            showMessage(`Starte Routine mit Genre: ${selectedGenre}, Stimme: ${selectedVoice} und Timer: ${selectedTimerMinutes} Minuten.`);
-            
-            // Update profile stats (placeholder)
-            routineCount++;
-            totalTime += selectedTimerMinutes;
-            lastGenre = selectedGenre;
-            updateProfileDisplay();
-
-            // Setzt Play-Status auf "playing" (Platzhalter)
-            togglePlayback(true);
-            
-            // Setzt Timer-Anzeige
-            if (selectedTimerMinutes > 0) {
-                startCountdown(selectedTimerMinutes * 60);
-            } else {
-                document.getElementById('countdown-timer').textContent = '∞';
-            }
-        }
-
-        // --- Playback-Funktionen ---
-
-        function togglePlayback(play) {
-            isPlaying = play;
-            const playBtn = document.getElementById('play-button');
-            const pauseBtn = document.getElementById('pause-button');
-
-            if (play) {
-                playBtn.classList.add('hidden');
-                pauseBtn.classList.remove('hidden');
-                console.log("Playback gestartet.");
-            } else {
-                playBtn.classList.remove('hidden');
-                pauseBtn.classList.add('hidden');
-                console.log("Playback pausiert.");
-            }
-        }
-
-        function stopPlayback() {
-            togglePlayback(false);
-            stopCountdown();
-            transitionToScreen('main-menu-screen'); // Zurück zum Hauptmenü
-            showMessage("Wiedergabe gestoppt und beendet.");
-        }
-        
-        // --- Timer-Funktionen ---
-        
-        let timerCountdownInterval;
-
-        function startCountdown(durationInSeconds) {
-            let timer = durationInSeconds;
-            const display = document.getElementById('countdown-timer');
-
-            function updateTimer() {
-                const minutes = parseInt(timer / 60, 10);
-                const seconds = parseInt(timer % 60, 10);
-
-                const minsDisplay = minutes < 10 ? "0" + minutes : minutes;
-                const secsDisplay = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minsDisplay + ":" + secsDisplay;
-
-                if (--timer < 0) {
-                    timer = 0; // Stoppt bei 0
-                    stopPlayback();
-                    showMessage("Der Sleeptimer ist abgelaufen. Gute Nacht!");
-                }
-            }
-            
-            stopCountdown(); // Vorherigen Timer stoppen
-            updateTimer();
-            timerCountdownInterval = setInterval(updateTimer, 1000);
-        }
-
-        function stopCountdown() {
-            clearInterval(timerCountdownInterval);
-        }
-
-
-        // --- Profilfunktionen ---
-
-        function showProfile() {
-            updateProfileDisplay();
-            document.getElementById('profile-modal').classList.remove('hidden');
-            document.getElementById('profile-modal').classList.add('flex');
-        }
-
-        function hideProfile() {
-            document.getElementById('profile-modal').classList.remove('flex');
-            document.getElementById('profile-modal').classList.add('hidden');
-        }
-
-        function updateProfileDisplay() {
-            document.getElementById('profile-routines').textContent = routineCount;
-            document.getElementById('profile-time').textContent = totalTime;
-            document.getElementById('profile-last-genre').textContent = lastGenre;
-        }
-
-
-        // --- Initialisierung ---
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Icons erstellen
-            lucide.createIcons();
-            
-            // Setzt Standardwerte für die Anzeige, damit die Buttons korrekt aktiv sind
-            selectGenre(selectedGenre);
-            const defaultTimerButton = document.querySelector(`.timer-button[data-minutes="${selectedTimerMinutes}"]`);
-            if (defaultTimerButton) {
-                setTimerActive(defaultTimerButton, selectedTimerMinutes);
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
