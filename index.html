@@ -1,293 +1,296 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Somnia - Einschlafhilfe</title>
-    
-    <!-- Tailwind CSS CDN für Utility Classes -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons für Symbole (Einstellungen, Zurück etc.) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Externe CSS-Datei -->
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somnia - Einschlafhilfe</title>
+    
+    <!-- Tailwind CSS CDN für Utility Classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons für Symbole (Einstellungen, Zurück etc.) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Externe CSS-Datei -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="app-container">
 
-        <!-- 1. SPLASH SCREEN (Startbildschirm) -->
-        <div id="splash-screen" class="screen visible-screen">
-            <h1 class="text-6xl font-extrabold tracking-widest uppercase" style="color: white;">
-                SOMNIVA
-            </h1>
-            <div class="splash-bottom-content text-center">
-                <p class="text-lg font-light mb-4" style="color: white;">
-                    hilft dir, deine Gedanken abzuschalten und
-                    <span class="font-bold">sanft einzuschlafen</span>.
-                </p>
-                <button onclick="transitionToMainMenu()" class="mt-8 text-sm font-semibold uppercase tracking-wider py-3 px-6 rounded-full bg-white text-gray-800 shadow-xl hover:bg-gray-100 transition-colors">
-                    Los geht's
-                </button>
-            </div>
-        </div>
+        <!-- 1. SPLASH SCREEN (Startbildschirm) -->
+        <div id="splash-screen" class="screen visible-screen">
+            <h1 class="text-6xl font-extrabold tracking-widest uppercase" style="color: white;">
+                SOMNIVA
+            </h1>
+            <div class="splash-bottom-content text-center">
+                <p class="text-lg font-light mb-4" style="color: white;">
+                    hilft dir, deine Gedanken abzuschalten und
+                    <span class="font-bold">sanft einzuschlafen</span>.
+                </p>
+                <button onclick="transitionToMainMenu()" class="mt-8 text-sm font-semibold uppercase tracking-wider py-3 px-6 rounded-full bg-white text-gray-800 shadow-xl hover:bg-gray-100 transition-colors">
+                    Los geht's
+                </button>
+            </div>
+        </div>
 
-        <!-- 2. MAIN MENU SCREEN (Hauptmenü) -->
-        <div id="main-menu-screen" class="screen hidden-screen">
-            <div class="app-header">
-                <div class="header-icon-wrapper">
-                    <button onclick="transitionToScreen('settings-menu')" aria-label="Einstellungen öffnen" 
-                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                        <i data-lucide="settings" class="w-10 h-10"></i>
-                    </button>
-                </div>
-                <div class="header-icon-wrapper">
-                    <button onclick="showProfile()" aria-label="Profil öffnen"
-                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                        <i data-lucide="user" class="w-10 h-10"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-grow flex flex-col items-center justify-center p-8">
-                <h2 class="text-3xl font-bold mb-10 text-gray-800"></h2>
-                <div class="text-5xl mb-6 text-gray-700"></div> 
-            </div>
-            <div class="w-full p-6">
-                <button onclick="transitionToScreen('sleeptimer-selection-screen')" 
-                        class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
-                               bg-white text-gray-800 border-2 border-gray-200 
-                               hover:shadow-xl hover:bg-gray-50"
-                        style="background-color: var(--color-button-soft);">
-                    EINSCHLAFROUTINE STARTEN
-                </button>
-            </div>
-        </div>
+        <!-- 2. MAIN MENU SCREEN (Hauptmenü) -->
+        <div id="main-menu-screen" class="screen hidden-screen">
+            <div class="app-header">
+                <div class="header-icon-wrapper">
+                    <button onclick="transitionToScreen('settings-menu')" aria-label="Einstellungen öffnen" 
+                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                        <i data-lucide="settings" class="w-10 h-10"></i>
+                    </button>
+                </div>
+                <div class="header-icon-wrapper">
+                    <button onclick="showProfile()" aria-label="Profil öffnen"
+                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                        <i data-lucide="user" class="w-10 h-10"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-grow flex flex-col items-center justify-center p-8">
+                <h2 class="text-3xl font-bold mb-10 text-gray-800"></h2>
+                <div class="text-5xl mb-6 text-gray-700"></div> 
+            </div>
+            <div class="w-full p-6">
+                <button onclick="transitionToScreen('sleeptimer-selection-screen')" 
+                        class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
+                               bg-white text-gray-800 border-2 border-gray-200 
+                               hover:shadow-xl hover:bg-gray-50"
+                        style="background-color: var(--color-button-soft);">
+                    EINSCHLAFROUTINE STARTEN
+                </button>
+            </div>
+        </div>
 
-        <!-- 3. SETTINGS MENU SCREEN -->
-        <div id="settings-menu-screen" class="screen hidden-screen">
-            <div class="app-header">
-                <div class="header-icon-wrapper">
-                    <button onclick="goBack()" aria-label="Zurück zum Hauptmenü" 
-                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <h2 class="header-title">Einstellungen</h2>
-                <div class="header-icon-wrapper"></div> 
-            </div>
-            <div class="w-full max-w-md mt-8">
-                <h3 class="text-xl font-semibold mb-4 text-gray-700">Grundlegende Voreinstellungen</h3>
-                <div onclick="transitionToScreen('genre-selection')" class="settings-menu-item">
-                    <span>Genre</span>
-                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                </div>
-                <div onclick="transitionToScreen('voice-selection-screen')" class="settings-menu-item">
+        <!-- 3. SETTINGS MENU SCREEN -->
+        <div id="settings-menu-screen" class="screen hidden-screen">
+            <div class="app-header">
+                <div class="header-icon-wrapper">
+                    <button onclick="goBack()" aria-label="Zurück zum Hauptmenü" 
+                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <h2 class="header-title">Einstellungen</h2>
+                <div class="header-icon-wrapper"></div> 
+            </div>
+            <div class="w-full max-w-md mt-8">
+                <h3 class="text-xl font-semibold mb-4 text-gray-700">Grundlegende Voreinstellungen</h3>
+                <div onclick="transitionToScreen('genre-selection')" class="settings-menu-item">
+                    <span>Genre</span>
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </div>
+                <div onclick="transitionToScreen('voice-selection-screen')" class="settings-menu-item">
 
-                    <span>Stimme</span>
-                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                </div>
-            </div>
-        </div>
-        <!-- 3.5 VOICE SELECTION SCREEN -->
+                    <span>Stimme</span>
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </div>
+            </div>
+        </div>
+        <!-- 3.5 VOICE SELECTION SCREEN -->
 <div id="voice-selection-screen" class="screen hidden-screen">
-    <div class="app-header">
-        <div class="header-icon-wrapper">
-            <button onclick="goBack()" aria-label="Zurück"
-                    class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                <i data-lucide="chevron-left" class="w-6 h-6"></i>
-            </button>
-        </div>
-        <h2 class="header-title">Stimme</h2>
-        <div class="header-icon-wrapper"></div> 
-    </div>
+    <div class="app-header">
+        <div class="header-icon-wrapper">
+            <button onclick="goBack()" aria-label="Zurück"
+                    class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <h2 class="header-title">Stimme</h2>
+        <div class="header-icon-wrapper"></div> 
+    </div>
 
-    <div class="w-full max-w-md mt-10 px-6 space-y-8">
+    <div class="w-full max-w-md mt-10 px-6 space-y-8">
 
-        <!-- Stimme auswählen -->
-        <div>
-            <label class="text-lg font-semibold text-gray-800">Stimme</label>
-            <select id="voice-select" onchange="updateVoiceSetting()"
-                    class="w-full mt-2 p-3 rounded-lg border border-gray-300 bg-white shadow-md">
-                <option value="1">female 1</option>
-                <option value="2">male 2</option>
-            </select>
-        </div>
+        <!-- Stimme auswählen -->
+        <div>
+            <label class="text-lg font-semibold text-gray-800">Stimme</label>
+            <select id="voice-select" onchange="updateVoiceSetting()"
+                    class="w-full mt-2 p-3 rounded-lg border border-gray-300 bg-white shadow-md">
+                <option value="1">female 1</option>
+                <option value="2">male 2</option>
+            </select>
+        </div>
 
-        <!-- Geschwindigkeit -->
-        <div>
-            <label class="text-lg font-semibold text-gray-800">Geschwindigkeit</label>
-            <input id="speed-slider" type="range" min="0.5" max="1.5" value="1" step="0.05"
-                   class="w-full mt-3">
-        </div>
+        <!-- Geschwindigkeit -->
+        <div>
+            <label class="text-lg font-semibold text-gray-800">Geschwindigkeit</label>
+            <input id="speed-slider" type="range" min="0.5" max="1.5" value="1" step="0.05"
+                   class="w-full mt-3">
+        </div>
 
-        <button onclick="transitionToScreen('sleeptimer-selection-screen')"
-                class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg bg-gray-800 text-white">
-            los geht’s !
-        </button>
-    </div>
+        <button onclick="transitionToScreen('sleeptimer-selection-screen')"
+                class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg bg-gray-800 text-white">
+            los geht’s !
+        </button>
+    </div>
 </div>
 
 
-        <!-- 4. GENRE SELECTION SCREEN -->
-        <div id="genre-selection-screen" class="screen hidden-screen">
-            <div class="app-header">
-                <div class="header-icon-wrapper">
-                    <button onclick="goBack()" aria-label="Zurück zu den Einstellungen" 
-                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <h2 class="header-title">Genre</h2>
-                <div class="header-icon-wrapper"></div> 
-            </div>
-            <div class="genre-grid">
-                <button onclick="selectGenre('Märchen')" class="genre-button" style="background-color: var(--color-genre-1);">Märchen</button>
-                <button onclick="selectGenre('Hörbuch')" class="genre-button active" style="background-color: var(--color-genre-2);">Hörbuch</button>
-                <button onclick="selectGenre('White Noise')" class="genre-button" style="background-color: var(--color-genre-3);">White Noise</button>
-                <button onclick="selectGenre('Naturgeräusche')" class="genre-button" style="background-color: var(--color-genre-4);">Naturgeräusche</button>
-            </div>
-            <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
-        </div>
-        
-        <!-- 5. SLEEPTIMER SELECTION SCREEN -->
-        <div id="sleeptimer-selection-screen" class="screen hidden-screen">
-            <div class="app-header">
-                <div class="header-icon-wrapper">
-                    <button onclick="goBack()" aria-label="Zurück zum Hauptmenü" 
-                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <h2 class="header-title">SLEEPTIMER</h2>
-                <div class="header-icon-wrapper"></div> 
-            </div>
-            <div class="w-full max-w-sm p-4 mt-8 space-y-4">
-                <button onclick="setTimerActive(this, '5')" class="timer-button" data-minutes="5">5 Minuten</button>
-                <button onclick="setTimerActive(this, '10')" class="timer-button" data-minutes="10">10 Minuten</button>
-                <button onclick="setTimerActive(this, '15')" class="timer-button active" data-minutes="15">15 Minuten</button>
-                <button onclick="setTimerActive(this, '30')" class="timer-button" data-minutes="30">30 Minuten</button>
-                <button onclick="setTimerActive(this, '45')" class="timer-button" data-minutes="45">45 Minuten</button>
-                <button onclick="setTimerActive(this, '60')" class="timer-button" data-minutes="60">1 Stunde</button>
-                <button onclick="setTimerActive(this, '0')" class="timer-button" data-minutes="0">nach Ende der Geschichte</button>
-            </div>
-            <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
-            
-            <div class="w-full p-6 mt-auto">
-                <!-- WICHTIG: Ruft jetzt die Atemübung auf -->
-                <button onclick="startBreathingExercise()" 
-                        class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
-                               bg-gray-800 text-white border-2 border-gray-700 
-                               hover:shadow-xl hover:bg-gray-700"
-                        style="background-color: var(--color-accent); color: white;">
-                    ZUFÄLLIGE ROUTINE STARTEN
-                </button>
-            </div>
-        </div>
+        <!-- 4. GENRE SELECTION SCREEN -->
+        <div id="genre-selection-screen" class="screen hidden-screen">
+            <div class="app-header">
+                <div class="header-icon-wrapper">
+                    <button onclick="goBack()" aria-label="Zurück zu den Einstellungen" 
+                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <h2 class="header-title">Genre</h2>
+                <div class="header-icon-wrapper"></div> 
+            </div>
+            <div class="genre-grid">
+                <button onclick="selectGenre('Märchen')" class="genre-button" style="background-color: var(--color-genre-1);">Märchen</button>
+                <button onclick="selectGenre('Hörbuch')" class="genre-button active" style="background-color: var(--color-genre-2);">Hörbuch</button>
+                <button onclick="selectGenre('White Noise')" class="genre-button" style="background-color: var(--color-genre-3);">White Noise</button>
+                <button onclick="selectGenre('Naturgeräusche')" class="genre-button" style="background-color: var(--color-genre-4);">Naturgeräusche</button>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
+        </div>
+        
+        <!-- 5. SLEEPTIMER SELECTION SCREEN -->
+        <div id="sleeptimer-selection-screen" class="screen hidden-screen">
+            <div class="app-header">
+                <div class="header-icon-wrapper">
+                    <button onclick="goBack()" aria-label="Zurück zum Hauptmenü" 
+                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <h2 class="header-title">SLEEPTIMER</h2>
+                <div class="header-icon-wrapper"></div> 
+            </div>
+            <div class="w-full max-w-sm p-4 mt-8 space-y-4">
+                <button onclick="setTimerActive(this, '5')" class="timer-button" data-minutes="5">5 Minuten</button>
+                <button onclick="setTimerActive(this, '10')" class="timer-button" data-minutes="10">10 Minuten</button>
+                <button onclick="setTimerActive(this, '15')" class="timer-button active" data-minutes="15">15 Minuten</button>
+                <button onclick="setTimerActive(this, '30')" class="timer-button" data-minutes="30">30 Minuten</button>
+                <button onclick="setTimerActive(this, '45')" class="timer-button" data-minutes="45">45 Minuten</button>
+                <button onclick="setTimerActive(this, '60')" class="timer-button" data-minutes="60">1 Stunde</button>
+                <button onclick="setTimerActive(this, '0')" class="timer-button" data-minutes="0">nach Ende der Geschichte</button>
+            </div>
+            <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
+            
+            <div class="w-full p-6 mt-auto">
+                <!-- WICHTIG: Ruft jetzt die Atemübung auf -->
+                <button onclick="startBreathingExercise()" 
+                        class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
+                               bg-gray-800 text-white border-2 border-gray-700 
+                               hover:shadow-xl hover:bg-gray-700"
+                        style="background-color: var(--color-accent); color: white;">
+                    ZUFÄLLIGE ROUTINE STARTEN
+                </button>
+            </div>
+        </div>
 
-        <!-- 5.5 ATEMÜBUNG SCREEN -->
-        <!-- Die Klasse 'atemuebung' ist der Platzhalter für das Hintergrundbild -->
-        <div id="breathing-screen" class="screen hidden-screen atemuebung flex flex-col items-center justify-center text-center">
-            
-            <div class="absolute top-12">
-                <h2 class="text-2xl font-bold text-gray-700 tracking-widest uppercase">Meditative Atmung</h2>
-            </div>
+        <!-- 5.5 ATEMÜBUNG SCREEN -->
+        <!-- Die Klasse 'atemuebung' ist der Platzhalter für das Hintergrundbild -->
+        <div id="breathing-screen" class="screen hidden-screen atemuebung flex flex-col items-center justify-center text-center">
+            
+            <div class="absolute top-12">
+                <h2 class="text-2xl font-bold text-gray-700 tracking-widest uppercase">Meditative Atmung</h2>
+            </div>
 
-            <!-- Atem-Animation -->
-            <div class="relative flex items-center justify-center mt-10">
-                <!-- Äußerer Ripple-Kreis -->
-                <div class="absolute w-72 h-72 rounded-full bg-blue-300 opacity-30 animate-pulse"></div>
-                
-                <!-- Der atmende Kreis -->
-                <div class="w-48 h-48 rounded-full bg-white bg-opacity-90 flex items-center justify-center shadow-2xl breathing-circle">
-                    <span id="breathing-text" class="text-blue-900 font-bold text-xl tracking-wider">Einatmen</span>
-                </div>
-            </div>
+            <!-- Atem-Animation -->
+            <div class="relative flex items-center justify-center mt-10">
+                <!-- Äußerer Ripple-Kreis -->
+                <div class="absolute w-72 h-72 rounded-full bg-blue-300 opacity-30 animate-pulse"></div>
+                
+                <!-- Der atmende Kreis -->
+                <div class="w-48 h-48 rounded-full bg-white bg-opacity-90 flex items-center justify-center shadow-2xl breathing-circle">
+                    <span id="breathing-text" class="text-blue-900 font-bold text-xl tracking-wider">Einatmen</span>
+                </div>
+            </div>
 
-            <!-- Der Container ist jetzt leer, aber hält den Button dank 'absolute bottom-12' am unteren Rand. -->
-            <div class="absolute bottom-12 px-8 w-full">
-               <button onclick="skipBreathing()" class="breathing-skip-button">
-    ÜBERSPRINGEN & GESCHICHTE STARTEN
+            <!-- Der Container ist jetzt leer, aber hält den Button dank 'absolute bottom-12' am unteren Rand. -->
+            <div class="absolute bottom-12 px-8 w-full">
+               <button onclick="skipBreathing()" class="breathing-skip-button">
+    ÜBERSPRINGEN & GESCHICHTE STARTEN
 </button>
 
-            </div>
-        </div>
-        
-        
-        <!-- 6. PLAYBACK SCREEN -->
-        <div id="playback-screen" class="screen hidden-screen">
-            <div class="app-header justify-center">
-                <div class="text-gray-800 p-2 rounded-full">
-                    <i data-lucide="moon" class="w-6 h-6"></i>
-                </div>
-                <h2 id="playback-title" class="header-title font-light"></h2>
-                <div class="header-icon-wrapper"></div> 
-            </div>
-            
-            <div class="flex flex-col items-center justify-start flex-grow p-8 w-full pt-[20vh]"></div>
-                <h3 id="current-content-title" class="text-2xl font-bold text-gray-800 mb-2 text-center"></h3>
-                <p id="current-content-genre" class="text-lg text-gray-500 mb-8"></p>
-                <div class="flex items-center space-x-2 text-3xl font-mono mb-8 p-3 rounded-xl bg-gray-100 shadow-inner">
-                    <i data-lucide="clock" class="w-6 h-6 text-gray-500"></i>
-                    <span id="countdown-timer" class="text-gray-700 font-extrabold">--:--</span>
-                </div>
-                <p id="loading-status" class="text-sm text-gray-600 font-semibold italic mb-8"></p>
+            </div>
+        </div>
+        
+        
+        <!-- 6. PLAYBACK SCREEN -->
+        <div id="playback-screen" class="screen hidden-screen">
+            <div class="app-header justify-center">
+                <div class="text-gray-800 p-2 rounded-full">
+                    <i data-lucide="moon" class="w-6 h-6"></i>
+                </div>
+                <h2 id="playback-title" class="header-title font-light"></h2>
+                <div class="header-icon-wrapper"></div> 
+            </div>
+            
+            <!-- NEU: Der Haupt-Content-Container, der den oberen Abstand und die Zentrierung regelt -->
+            <div class="flex flex-col items-center justify-start flex-grow p-8 w-full pt-[20vh]">
+                <h3 id="current-content-title" class="text-2xl font-bold text-gray-800 mb-2 text-center"></h3>
+                <p id="current-content-genre" class="text-lg text-gray-500 mb-8"></p>
+                <div class="flex items-center space-x-2 text-3xl font-mono mb-8 p-3 rounded-xl bg-gray-100 shadow-inner">
+                    <i data-lucide="clock" class="w-6 h-6 text-gray-500"></i>
+                    <span id="countdown-timer" class="text-gray-700 font-extrabold">--:--</span>
+                </div>
+                <p id="loading-status" class="text-sm text-gray-600 font-semibold italic mb-8"></p>
 
-                <div class="flex flex-col items-center w-full mt-auto pb-8">
-                    <div class="flex items-center justify-center space-x-6">
-                        <button id="play-button" class="bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </button>
-                        <button id="pause-button" class="hidden bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                        <button id="stop-button" class="bg-red-100 text-red-600 p-4 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-                        </button>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-6 uppercase tracking-widest"></p>
-                </div>
-            </div>
-        </div>
-        
+                <div class="flex flex-col items-center w-full mt-auto pb-8">
+                    <div class="flex items-center justify-center space-x-6">
+                        <button id="play-button" class="bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        </button>
+                        <button id="pause-button" class="hidden bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        </button>
+                        <button id="stop-button" class="bg-red-100 text-red-600 p-4 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-6 uppercase tracking-widest"></p>
+                </div>
+            </div>
+            <!-- ENDE des Haupt-Content-Containers -->
+        </div>
+        
 
-        <!-- Message Modal -->
-        <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
-                <p id="modal-text" class="text-gray-800 mb-4 font-medium"></p>
-                <button onclick="hideMessage()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">OK</button>
-            </div>
-        </div>
-        <!-- PROFIL-MODAL -->
+        <!-- Message Modal -->
+        <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
+                <p id="modal-text" class="text-gray-800 mb-4 font-medium"></p>
+                <button onclick="hideMessage()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">OK</button>
+            </div>
+        </div>
+        <!-- PROFIL-MODAL -->
 <div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
-        <h2 class="text-xl font-bold mb-4 text-gray-800">Dein Profil</h2>
+    <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Dein Profil</h2>
 
-        <p class="text-gray-700 mb-2"><strong>Gestartete Routinen:</strong> <span id="profile-routines">0</span></p>
-        <p class="text-gray-700 mb-2"><strong>Gesamte Hörzeit:</strong> <span id="profile-time">0</span> min</p>
-        <p class="text-gray-700 mb-4"><strong>Letztes Genre:</strong> <span id="profile-last-genre">–</span></p>
+        <p class="text-gray-700 mb-2"><strong>Gestartete Routinen:</strong> <span id="profile-routines">0</span></p>
+        <p class="text-gray-700 mb-2"><strong>Gesamte Hörzeit:</strong> <span id="profile-time">0</span> min</p>
+        <p class="text-gray-700 mb-4"><strong>Letztes Genre:</strong> <span id="profile-last-genre">–</span></p>
 
-        <button onclick="hideProfile()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
-            Schließen
-        </button>
-    </div>
+        <button onclick="hideProfile()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+            Schließen
+        </button>
+    </div>
 </div>
 
-        
-        <!-- Lade-Indikator -->
-        <div id="loading-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center z-[100]">
-            <div class="flex flex-col items-center p-8 rounded-xl bg-white shadow-2xl">
-                <svg class="animate-spin -ml-1 mr-3 h-10 w-10 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <p class="mt-4 text-gray-800 font-semibold">Lade Audio... Bitte warten.</p>
-            </div>
-        </div>
+        
+        <!-- Lade-Indikator -->
+        <div id="loading-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center z-[100]">
+            <div class="flex flex-col items-center p-8 rounded-xl bg-white shadow-2xl">
+                <svg class="animate-spin -ml-1 mr-3 h-10 w-10 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="mt-4 text-gray-800 font-semibold">Lade Audio... Bitte warten.</p>
+            </div>
+        </div>
 
-    </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
