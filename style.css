@@ -79,7 +79,7 @@ body {
 
 /* Screens Styling */
 #splash-screen {
-    background-image: url('./schlafendeperson.png');
+    background-image: url('./Somnia-Bilder/schlafendeperson.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -290,4 +290,5 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+
 
