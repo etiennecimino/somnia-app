@@ -1,43 +1,32 @@
 /* Konfigurieren der Hauptfarben basierend auf den Wireframes */
 :root {
-    --color-dark-blue: #2B4162; /* Hauptfarbe für Texte und Akzente */
-    --color-light-bg: #F5F5E0; /* Sehr helles, cremefarbenes Hintergrund-Beige */
-    --color-accent: #E95E95; /* Knallige Akzentfarbe (Pink) */
-    --color-button-soft: #BEE3DB; /* Sanfte, entspannende Farbe für Haupt-Buttons */
-    --color-text-light: #FFFFFF; /* Weiße Schriftfarbe für dunkle Hintergründe */
+    --color-dark-blue: #2B4162; 
+    --color-light-bg: #F5F5E0; 
+    --color-accent: #E95E95; 
+    --color-button-soft: #BEE3DB; 
 
     /* Neue Farben für die Genre-Auswahl */
-    --color-genre-1: #C9D9E9; /* Hellblau-Grau */
-    --color-genre-2: #B0C4DE; /* Mittelblau-Grau */
-    --color-genre-3: #FFFFFF; /* Weiß */
-    --color-genre-4: #B3D9D9; /* Sanftes Türkis */
-    --color-header-icon: #333333; /* Dunkles Grau für Header-Icons */
-
-    /* Schatten-Definitionen */
-    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --shadow-accent: 0 0 15px rgba(233, 94, 149, 0.6);
+    --color-genre-1: #C9D9E9;
+    --color-genre-2: #B0C4DE;
+    --color-genre-3: #FFFFFF;
+    --color-genre-4: #B3D9D9;
+    --color-header-icon: #333333;
 }
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--color-light-bg);
-    /* Mobile Fix: 100vh kann auf Mobilgeräten Probleme verursachen. */
-    height: 100%;
-    margin: 0;
-    padding: 0;
     overflow-x: hidden;
 }
 
 .app-container {
     width: 100%;
-    max-width: 480px; /* Standardbreite für mobile Anwendungen */
-    /* Mobile Fix: Verwenden Sie min-height, um sicherzustellen, dass es den gesamten Viewport abdeckt */
-    min-height: 100vh;
+    max-width: 480px; 
+    height: 100vh;
     margin: 0 auto;
     position: relative;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    background-color: var(--color-light-bg); /* Fallback */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden; 
 }
 
 .screen {
@@ -46,206 +35,129 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto; /* Erlaubt Scrollen innerhalb des Screens bei Bedarf */
-    padding-bottom: 20px; /* Zusätzlicher Platz am Ende */
 }
 .hidden-screen {
     opacity: 0;
     pointer-events: none;
-    transform: translateX(100%); /* Fügt eine sanfte Slide-Out-Animation hinzu */
     z-index: 0;
 }
 .visible-screen {
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(0);
     z-index: 10;
 }
-
-/* --------------------------------------------- */
-/* HEADER STYLING */
-/* --------------------------------------------- */
 
 .app-header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
-    position: relative;
+    padding: 1rem 1.5rem; 
+    position: relative; 
     color: var(--color-header-icon);
-    min-height: 60px; /* Stellt sicher, dass der Header eine Mindesthöhe hat */
 }
 
 .header-title {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 50%; 
     transform: translate(-50%, -50%);
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-dark-blue);
     z-index: 5;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header-icon-wrapper {
     z-index: 10;
-    cursor: pointer;
-    padding: 0.5rem; /* Größeres Klickziel */
-    border-radius: 50%;
-    transition: background-color 0.15s;
+    padding: 0;
 }
 
-.header-icon-wrapper:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-
-/* --------------------------------------------- */
-/* HINTERGRÜNDE & OVERLAYS */
-/* --------------------------------------------- */
-
-/* Overlay für Bildhintergründe, um den Textkontrast zu verbessern */
-.screen-image-background {
-    position: relative; /* Wichtig für das Pseudo-Element */
-}
-.screen-image-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.1); /* Sanfte, fast unsichtbare Abdunkelung */
-    z-index: 1;
-}
-
+/* Screens Styling */
 #splash-screen {
     background-image: url('./Somnia-Bilder/schlafendeperson.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: var(--color-text-light); /* Helle Schrift für den dunklen Hintergrund */
+    color: var(--color-light-bg);
     text-align: center;
-    text-shadow: 0px 2px 10px rgba(0,0,0,0.6); /* Stärkerer Schatten für Lesbarkeit */
+    text-shadow: 0px 2px 8px rgba(0,0,0,0.4); 
     justify-content: space-between;
     padding: 15vh 24px;
 }
-#splash-screen::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.0) 50%); /* Gradient für besseren Kontrast unten */
-    z-index: 1;
-}
 
 #splash-screen h1, .splash-bottom-content {
-    z-index: 20;
-    position: relative;
+    z-index: 20; 
+    position: relative; 
 }
 
 #main-menu-screen {
-    background-image: url('./Somnia-Bilder/zweiterscreen.png');
+    background-image: url('./Somnia-Bilder/zweiterscreen.png'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     justify-content: space-between;
     padding: 24px;
-    color: var(--color-dark-blue);
-    text-shadow: 0px 0px 6px rgba(255,255,255,0.8); /* Weicher, heller Schatten */
-    position: relative; /* Für ::before Overlay */
+    color: var(--color-dark-blue); 
+    text-shadow: 0px 0px 4px rgba(255,255,255,0.7); 
 }
-
-/* Ein subtiles Overlay für den Hauptmenü-Hintergrund, falls nötig */
-/*
-#main-menu-screen::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.1);
-    z-index: 1;
-}
-*/
 
 #main-menu-screen .flex, #main-menu-screen h2, #main-menu-screen button {
     z-index: 20;
     position: relative;
 }
 
-#settings-menu-screen,
+#settings-menu-screen, 
 #genre-selection-screen,
 #sleeptimer-selection-screen,
-#voice-selection-screen,
-#playback-screen {
+#playback-screen { 
     background-image: url('./Somnia-Bilder/genrescreen.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     padding: 24px;
     justify-content: flex-start;
-    padding-top: 80px; /* Platz für den Header */
 }
 
-/* ----- Individueller Hintergrund für den PLAYBACK-SCREEN ----- */
-#playback-screen {
-    background-image: url('./Somnia-Bilder/playscreen.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* --------------------------------------------- */
-/* ATEMÜBUNG ANIMATION & PLACEHOLDER */
-/* --------------------------------------------- */
+/* ********************************************* */
+/* ATEMÜBUNG ANIMATION & PLACEHOLDER             */
+/* ********************************************* */
 
 .atemuebung {
-    background-image: url('./Somnia-Bilder/atmen.png');
-    background-color: #a0d3f5;
+   background-image: url('./Somnia-Bilder/atmen.png');
+    /* background-image: url('./Somnia-Bilder/atem_background.jpg'); */
+    background-color: #a0d3f5; /* Hellblaues Fallback */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /* Zusätzliche Flex-Eigenschaften zur Zentrierung des Kreises */
-    justify-content: center;
-    align-items: center;
-    padding-top: 0;
 }
 
 /* Animation: Atmen */
 @keyframes breathe {
-    0%, 100% {
+    0% {
         transform: scale(1); /* Klein */
-        opacity: 0.8;
     }
     50% {
         transform: scale(1.4); /* Groß (Einatmen) */
-        opacity: 1;
+    }
+    100% {
+        transform: scale(1); /* Klein (Ausatmen) */
     }
 }
 
 .breathing-circle {
     /* 8 Sekunden pro Zyklus (4 ein, 4 aus) */
     animation: breathe 8s ease-in-out infinite;
-    /* Verbesserter Schatten für einen weicheren, pulsierenden Effekt */
-    box-shadow: 0 0 40px rgba(66, 153, 225, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.5);
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 5px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
+    /* Glatter Schatten */
+    box-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
 }
 
 /* --------------------------------------------- */
-/* EINSTELLUNGEN */
-/* --------------------------------------------- */
+
 
 .settings-menu-item {
     width: 100%;
@@ -259,20 +171,12 @@ body {
     font-weight: 500;
     color: var(--color-dark-blue);
     cursor: pointer;
-    transition: background-color 0.15s, transform 0.1s;
+    transition: background-color 0.1s;
 }
 
 .settings-menu-item:hover {
-    background-color: transparent; /* Verhindert ungewolltes Hintergrundleuchten bei Hover außerhalb des Containers */
-    transform: translateX(5px);
+    background-color: #FAFAFA;
 }
-.settings-menu-item:active {
-    opacity: 0.8;
-}
-
-/* --------------------------------------------- */
-/* GENRE-AUSWAHL */
-/* --------------------------------------------- */
 
 .genre-grid {
     display: grid;
@@ -286,50 +190,30 @@ body {
 .genre-button {
     height: 120px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--color-dark-blue);
-    border-radius: 1.25rem; /* Etwas runder */
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
     border: 3px solid transparent;
-    cursor: pointer;
-    text-align: center;
-    padding: 10px;
-}
-
-/* Spezifische Hintergrundfarben für Genres */
-.genre-button:nth-child(4n + 1) { background-color: var(--color-genre-1); }
-.genre-button:nth-child(4n + 2) { background-color: var(--color-genre-2); }
-.genre-button:nth-child(4n + 3) { background-color: var(--color-genre-3); }
-.genre-button:nth-child(4n + 4) { background-color: var(--color-genre-4); }
-
-.genre-button:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .genre-button:active {
-    transform: scale(0.95); /* Etwas stärkerer Klick-Effekt */
+    transform: scale(0.98);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .genre-button.active {
     border-color: var(--color-accent);
-    box-shadow: var(--shadow-accent); /* Akzent-Schatten bei Auswahl */
-    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(233, 94, 149, 0.5);
 }
-
-/* --------------------------------------------- */
-/* TIMER-AUSWAHL */
-/* --------------------------------------------- */
 
 .timer-button {
     width: 100%;
     padding: 1rem;
-    margin-bottom: 0.75rem;
     background-color: white;
     border: 1px solid #E0E0E0;
     border-radius: 0.75rem;
@@ -337,30 +221,32 @@ body {
     font-size: 1.125rem;
     color: var(--color-dark-blue);
     font-weight: 500;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s, font-weight 0.2s, border-color 0.2s;
+    transition: background-color 0.1s, font-weight 0.1s;
 }
 
 .timer-button:hover {
-    background-color: #F0F0F0;
+    background-color: #F8F8F8;
 }
 
 .timer-button.active {
-    font-weight: 700;
+    font-weight: 800;
     background-color: var(--color-button-soft);
     border-color: var(--color-button-soft);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+#voice-selection-screen {
+    background-image: url('./Somnia-Bilder/genrescreen.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 24px;
+    justify-content: flex-start;
+}
 /* --------------------------------------------- */
-/* BREATHING SKIP BUTTON */
+/* Neuer großer Button im Atemübungs-Screen      */
 /* --------------------------------------------- */
 
 .breathing-skip-button {
-    width: calc(100% - 48px); /* Nimmt die Breite des Containers minus Padding */
-    max-width: 320px;
-    position: absolute; /* Positioniert am unteren Rand */
-    bottom: 24px;
+    width: 100%;
     padding: 1rem;
     text-align: center;
     font-size: 1rem;
@@ -371,97 +257,36 @@ body {
     background-color: var(--color-button-soft);
     color: var(--color-dark-blue);
 
-    border: none; /* Entfernt den überflüssigen doppelten Rand */
+    border: 2px solid var(--color-dark-blue);
     border-radius: 1rem;
 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 
-    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 50; /* Stellt sicher, dass der Button über dem Hintergrund liegt */
+    transition: all 0.2s ease-in-out;
 }
 
 .breathing-skip-button:hover {
-    background-color: #d9f4ee;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    background-color: #d9f4ee; /* etwas heller */
+    transform: scale(1.03);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
 }
 
 .breathing-skip-button:active {
-    transform: translateY(1px) scale(0.98);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    transform: scale(0.97);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
-
-/* --------------------------------------------- */
-/* MODAL STYLING */
-/* --------------------------------------------- */
-
 #profile-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dunkler, halbtransparenter Hintergrund */
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* Sehr hoch, um über allem zu liegen */
     display: none;
-    backdrop-filter: blur(5px);
 }
 
 #profile-modal.flex {
     display: flex;
 }
 
-.modal-content {
-    background-color: var(--color-light-bg);
-    padding: 2rem;
-    border-radius: 1.5rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 400px;
-    transform: scale(0.9);
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-}
-
-#profile-modal.flex .modal-content {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Generischer Button-Stil für das Hauptmenü und Splash-Screen */
-.main-button {
-    background-color: var(--color-accent);
-    color: var(--color-text-light);
-    font-weight: 700;
-    padding: 1rem 2rem;
-    border-radius: 2rem;
-    box-shadow: 0 6px 15px rgba(233, 94, 149, 0.4);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-    border: none;
-}
-
-.main-button:hover {
-    background-color: #f07ea9; /* Leichte Farbänderung bei Hover */
-    box-shadow: 0 8px 20px rgba(233, 94, 149, 0.6);
-}
-
-.main-button:active {
-    transform: scale(0.98);
-    box-shadow: 0 4px 10px rgba(233, 94, 149, 0.3);
-}
-
-/* Utility-Klasse für Textausrichtung */
-.text-center {
-    text-align: center;
-}
-.mt-4 {
-    margin-top: 1rem;
-}
-.mb-8 {
-    margin-bottom: 2rem;
+/* ----- Individueller Hintergrund für den PLAYBACK-SCREEN ----- */
+#playback-screen {
+    background-image: url('./Somnia-Bilder/playscreen.png'); /* <– Dein Bild hier */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
