@@ -11,14 +11,228 @@
     <!-- Lucide Icons für Symbole (Einstellungen, Zurück etc.) -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Externe CSS-Datei -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Benutzerdefinierte Styles für das Layout und die Höhe (FIX FÜR MOBILE HÖHE) -->
+    <style>
+        /* Farben */
+        :root {
+            --color-primary: #3b82f6; /* Tailwind blue-500 */
+            --color-secondary: #60a5fa; /* Tailwind blue-400 */
+            --color-accent: #1f2937; /* Tailwind gray-800 */
+            --color-button-soft: #f3f4f6; /* Tailwind gray-100 */
+            --color-genre-1: #fecaca; /* Red */
+            --color-genre-2: #fed7aa; /* Orange */
+            --color-genre-3: #a7f3d0; /* Green */
+            --color-genre-4: #bfdbfe; /* Blue */
+        }
+
+        /* Basis-Layout: Sicherstellen, dass die App die volle mobile Höhe einnimmt */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Verwende d-v-h für die korrekte Höhe auf mobilen Geräten (dynamic viewport height) */
+            min-height: 100dvh; 
+            background-color: #f9fafb; /* Light background */
+        }
+
+        .app-container {
+            max-width: 420px; /* Typische Smartphone-Breite */
+            width: 100%;
+            margin: 0 auto;
+            min-height: 100dvh;
+            background-color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            display: flex; /* Muss flex sein, um screens zu stapeln */
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%; /* Wichtig für die Höhe innerhalb des Containers */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Elemente oben beginnen */
+            padding: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .hidden-screen {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(100%);
+        }
+
+        .visible-screen {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(0);
+        }
+
+        /* Spezielles Layout für Splash-Screen */
+        #splash-screen {
+            background-color: var(--color-accent); 
+            justify-content: space-between;
+            padding-bottom: 25%;
+            padding-top: 25%;
+        }
+
+        /* Header Styling */
+        .app-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb; /* Subtle separator */
+            flex-shrink: 0; /* Verhindert, dass der Header beim Scrollen schrumpft */
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .header-icon-wrapper {
+            width: 40px; /* Für saubere Ausrichtung */
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Settings Menu Items */
+        .settings-menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1rem;
+            border-radius: 0.75rem;
+            background-color: #f9fafb;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .settings-menu-item:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Genre Grid */
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 320px;
+            margin-top: 2rem;
+            padding: 0 1rem;
+        }
+
+        .genre-button {
+            padding: 1.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        .genre-button.active, .timer-button.active {
+            border: 4px solid var(--color-accent);
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Timer Buttons */
+        .timer-button {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 2px solid transparent;
+            transition: background-color 0.2s, border-color 0.2s;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Atemübung Screen Styling */
+        .atemuebung {
+            background: linear-gradient(135deg, #a7f3d0 0%, #d1fae5 100%);
+            color: #1f2937;
+        }
+        
+        .breathing-circle {
+            transition: all 4s ease-in-out;
+            box-shadow: 0 0 40px rgba(60, 160, 250, 0.6);
+        }
+
+        /* Breathing animation keyframes */
+        @keyframes breathing {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .breathing-circle.animate {
+            animation: breathing 8s infinite ease-in-out;
+        }
+
+        .breathing-skip-button {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 9999px; /* full rounded */
+            font-weight: 700;
+            color: white;
+            background-color: var(--color-accent);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
+        }
+
+        /* Playback Screen Style */
+        #playback-screen {
+            background-color: #f9fafb;
+        }
+        
+        /* Loading Spin */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
 </head>
 <body>
 
+    <!--
+        WICHTIGER LAYOUT-FIX: 
+        Die Klasse 'flex flex-col h-full' stellt sicher, dass der Screen die volle Höhe einnimmt 
+        und die Kindelemente (Header, Content, Button) vertikal angeordnet werden.
+    -->
     <div class="app-container">
 
         <!-- 1. SPLASH SCREEN (Startbildschirm) -->
+        <!-- Keine Änderung hier nötig, da es Full-Screen ist -->
         <div id="splash-screen" class="screen visible-screen">
             <h1 class="text-6xl font-extrabold tracking-widest uppercase" style="color: white;">
                 SOMNIVA
@@ -38,7 +252,7 @@
         <div id="main-menu-screen" class="screen hidden-screen">
             <div class="app-header">
                 <div class="header-icon-wrapper">
-                    <button onclick="transitionToScreen('settings-menu')" aria-label="Einstellungen öffnen" 
+                    <button onclick="transitionToScreen('settings-menu-screen')" aria-label="Einstellungen öffnen" 
                             class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
                         <i data-lucide="settings" class="w-10 h-10"></i>
                     </button>
@@ -54,11 +268,11 @@
                 <h2 class="text-3xl font-bold mb-10 text-gray-800"></h2>
                 <div class="text-5xl mb-6 text-gray-700"></div> 
             </div>
-            <div class="w-full p-6">
+            <div class="w-full p-6 flex-shrink-0">
                 <button onclick="transitionToScreen('sleeptimer-selection-screen')" 
                         class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
-                               bg-white text-gray-800 border-2 border-gray-200 
-                               hover:shadow-xl hover:bg-gray-50"
+                                bg-white text-gray-800 border-2 border-gray-200 
+                                hover:shadow-xl hover:bg-gray-50"
                         style="background-color: var(--color-button-soft);">
                     EINSCHLAFROUTINE STARTEN
                 </button>
@@ -77,57 +291,60 @@
                 <h2 class="header-title">Einstellungen</h2>
                 <div class="header-icon-wrapper"></div> 
             </div>
-            <div class="w-full max-w-md mt-8">
+            <div class="w-full max-w-md mt-8 px-6 flex-grow"> <!-- flex-grow hinzugefügt -->
                 <h3 class="text-xl font-semibold mb-4 text-gray-700">Grundlegende Voreinstellungen</h3>
-                <div onclick="transitionToScreen('genre-selection')" class="settings-menu-item">
+                <div onclick="transitionToScreen('genre-selection-screen')" class="settings-menu-item">
                     <span>Genre</span>
                     <i data-lucide="chevron-right" class="w-5 h-5"></i>
                 </div>
                 <div onclick="transitionToScreen('voice-selection-screen')" class="settings-menu-item">
-
                     <span>Stimme</span>
                     <i data-lucide="chevron-right" class="w-5 h-5"></i>
                 </div>
             </div>
         </div>
+        
         <!-- 3.5 VOICE SELECTION SCREEN -->
-<div id="voice-selection-screen" class="screen hidden-screen">
-    <div class="app-header">
-        <div class="header-icon-wrapper">
-            <button onclick="goBack()" aria-label="Zurück"
-                    class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
-                <i data-lucide="chevron-left" class="w-6 h-6"></i>
-            </button>
+        <div id="voice-selection-screen" class="screen hidden-screen">
+            <div class="app-header">
+                <div class="header-icon-wrapper">
+                    <button onclick="goBack()" aria-label="Zurück"
+                            class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <h2 class="header-title">Stimme</h2>
+                <div class="header-icon-wrapper"></div> 
+            </div>
+
+            <div class="w-full max-w-md mt-10 px-6 space-y-8 flex-grow">
+
+                <!-- Stimme auswählen -->
+                <div>
+                    <label class="text-lg font-semibold text-gray-800">Stimme</label>
+                    <select id="voice-select" onchange="updateVoiceSetting()"
+                            class="w-full mt-2 p-3 rounded-lg border border-gray-300 bg-white shadow-md">
+                        <option value="1">female 1</option>
+                        <option value="2">male 2</option>
+                    </select>
+                </div>
+
+                <!-- Geschwindigkeit -->
+                <div>
+                    <label class="text-lg font-semibold text-gray-800">Geschwindigkeit</label>
+                    <input id="speed-slider" type="range" min="0.5" max="1.5" value="1" step="0.05"
+                            class="w-full mt-3">
+                </div>
+
+            </div>
+            <!-- WICHTIG: Button nach unten verschoben und flex-shrink-0 hinzugefügt -->
+            <div class="w-full p-6 flex-shrink-0">
+                <button onclick="transitionToScreen('sleeptimer-selection-screen')"
+                        class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg bg-gray-800 text-white">
+                    los geht’s !
+                </button>
+            </div>
         </div>
-        <h2 class="header-title">Stimme</h2>
-        <div class="header-icon-wrapper"></div> 
-    </div>
-
-    <div class="w-full max-w-md mt-10 px-6 space-y-8">
-
-        <!-- Stimme auswählen -->
-        <div>
-            <label class="text-lg font-semibold text-gray-800">Stimme</label>
-            <select id="voice-select" onchange="updateVoiceSetting()"
-                    class="w-full mt-2 p-3 rounded-lg border border-gray-300 bg-white shadow-md">
-                <option value="1">female 1</option>
-                <option value="2">male 2</option>
-            </select>
-        </div>
-
-        <!-- Geschwindigkeit -->
-        <div>
-            <label class="text-lg font-semibold text-gray-800">Geschwindigkeit</label>
-            <input id="speed-slider" type="range" min="0.5" max="1.5" value="1" step="0.05"
-                   class="w-full mt-3">
-        </div>
-
-        <button onclick="transitionToScreen('sleeptimer-selection-screen')"
-                class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg bg-gray-800 text-white">
-            los geht’s !
-        </button>
-    </div>
-</div>
 
 
         <!-- 4. GENRE SELECTION SCREEN -->
@@ -142,18 +359,20 @@
                 <h2 class="header-title">Genre</h2>
                 <div class="header-icon-wrapper"></div> 
             </div>
-            <div class="genre-grid">
-                <button onclick="selectGenre('Märchen')" class="genre-button" style="background-color: var(--color-genre-1);">Märchen</button>
-                <button onclick="selectGenre('Hörbuch')" class="genre-button active" style="background-color: var(--color-genre-2);">Hörbuch</button>
-                <button onclick="selectGenre('White Noise')" class="genre-button" style="background-color: var(--color-genre-3);">White Noise</button>
-                <button onclick="selectGenre('Naturgeräusche')" class="genre-button" style="background-color: var(--color-genre-4);">Naturgeräusche</button>
+            <div class="flex-grow flex flex-col items-center p-6 w-full">
+                <div class="genre-grid">
+                    <button onclick="selectGenre('Märchen')" class="genre-button" style="background-color: var(--color-genre-1);">Märchen</button>
+                    <button onclick="selectGenre('Hörbuch')" class="genre-button active" style="background-color: var(--color-genre-2);">Hörbuch</button>
+                    <button onclick="selectGenre('White Noise')" class="genre-button" style="background-color: var(--color-genre-3);">White Noise</button>
+                    <button onclick="selectGenre('Naturgeräusche')" class="genre-button" style="background-color: var(--color-genre-4);">Naturgeräusche</button>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
             </div>
-            <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
         </div>
         
-        <!-- 5. SLEEPTIMER SELECTION SCREEN -->
+        <!-- 5. SLEEPTIMER SELECTION SCREEN (HIER WURDE DER HAUPT-FIX VORGENOMMEN) -->
         <div id="sleeptimer-selection-screen" class="screen hidden-screen">
-            <div class="app-header">
+            <div class="app-header flex-shrink-0"> <!-- Header bleibt oben -->
                 <div class="header-icon-wrapper">
                     <button onclick="goBack()" aria-label="Zurück zum Hauptmenü" 
                             class="text-gray-800 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-200">
@@ -163,23 +382,27 @@
                 <h2 class="header-title">SLEEPTIMER</h2>
                 <div class="header-icon-wrapper"></div> 
             </div>
-            <div class="w-full max-w-sm p-4 mt-8 space-y-4">
-                <button onclick="setTimerActive(this, '5')" class="timer-button" data-minutes="5">5 Minuten</button>
-                <button onclick="setTimerActive(this, '10')" class="timer-button" data-minutes="10">10 Minuten</button>
-                <button onclick="setTimerActive(this, '15')" class="timer-button active" data-minutes="15">15 Minuten</button>
-                <button onclick="setTimerActive(this, '30')" class="timer-button" data-minutes="30">30 Minuten</button>
-                <button onclick="setTimerActive(this, '45')" class="timer-button" data-minutes="45">45 Minuten</button>
-                <button onclick="setTimerActive(this, '60')" class="timer-button" data-minutes="60">1 Stunde</button>
-                <button onclick="setTimerActive(this, '0')" class="timer-button" data-minutes="0">nach Ende der Geschichte</button>
-            </div>
-            <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
             
-            <div class="w-full p-6 mt-auto">
-                <!-- WICHTIG: Ruft jetzt die Atemübung auf -->
+            <!-- Hinzugefügter SCROLLBARER CONTAINER, der den verfügbaren Platz einnimmt -->
+            <div class="flex-grow w-full overflow-y-auto px-6 py-4 flex flex-col items-center">
+                <div class="w-full max-w-sm space-y-4">
+                    <button onclick="setTimerActive(this, '5')" class="timer-button" data-minutes="5">5 Minuten</button>
+                    <button onclick="setTimerActive(this, '10')" class="timer-button" data-minutes="10">10 Minuten</button>
+                    <button onclick="setTimerActive(this, '15')" class="timer-button active" data-minutes="15">15 Minuten</button>
+                    <button onclick="setTimerActive(this, '30')" class="timer-button" data-minutes="30">30 Minuten</button>
+                    <button onclick="setTimerActive(this, '45')" class="timer-button" data-minutes="45">45 Minuten</button>
+                    <button onclick="setTimerActive(this, '60')" class="timer-button" data-minutes="60">1 Stunde</button>
+                    <button onclick="setTimerActive(this, '0')" class="timer-button" data-minutes="0">nach Ende der Geschichte</button>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4 max-w-xs"></p>
+            </div>
+            
+            <!-- Button-Container am UNTEREN RAND (FIXED) -->
+            <div class="w-full p-6 flex-shrink-0">
                 <button onclick="startBreathingExercise()" 
                         class="w-full py-4 rounded-xl text-lg font-semibold uppercase tracking-wider shadow-lg transition-all 
-                               bg-gray-800 text-white border-2 border-gray-700 
-                               hover:shadow-xl hover:bg-gray-700"
+                                bg-gray-800 text-white border-2 border-gray-700 
+                                hover:shadow-xl hover:bg-gray-700"
                         style="background-color: var(--color-accent); color: white;">
                     ZUFÄLLIGE ROUTINE STARTEN
                 </button>
@@ -187,7 +410,6 @@
         </div>
 
         <!-- 5.5 ATEMÜBUNG SCREEN -->
-        <!-- Die Klasse 'atemuebung' ist der Platzhalter für das Hintergrundbild -->
         <div id="breathing-screen" class="screen hidden-screen atemuebung flex flex-col items-center justify-center text-center">
             
             <div class="absolute top-12">
@@ -217,7 +439,7 @@
         
         <!-- 6. PLAYBACK SCREEN -->
         <div id="playback-screen" class="screen hidden-screen">
-            <div class="app-header justify-center">
+            <div class="app-header justify-center flex-shrink-0">
                 <div class="text-gray-800 p-2 rounded-full">
                     <i data-lucide="moon" class="w-6 h-6"></i>
                 </div>
@@ -225,7 +447,7 @@
                 <div class="header-icon-wrapper"></div> 
             </div>
             
-            <div class="flex flex-col items-center justify-start flex-grow p-8 w-full pt-[20vh]"></div>
+            <div class="flex flex-col items-center justify-start flex-grow p-8 w-full pt-[10vh] overflow-y-auto">
                 <h3 id="current-content-title" class="text-2xl font-bold text-gray-800 mb-2 text-center"></h3>
                 <p id="current-content-genre" class="text-lg text-gray-500 mb-8"></p>
                 <div class="flex items-center space-x-2 text-3xl font-mono mb-8 p-3 rounded-xl bg-gray-100 shadow-inner">
@@ -233,25 +455,25 @@
                     <span id="countdown-timer" class="text-gray-700 font-extrabold">--:--</span>
                 </div>
                 <p id="loading-status" class="text-sm text-gray-600 font-semibold italic mb-8"></p>
-
-                <div class="flex flex-col items-center w-full mt-auto pb-8">
-                    <div class="flex items-center justify-center space-x-6">
-                        <button id="play-button" class="bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        </button>
-                        <button id="pause-button" class="hidden bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                        <button id="stop-button" class="bg-red-100 text-red-600 p-4 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-                        </button>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-6 uppercase tracking-widest"></p>
+            </div>
+            
+            <!-- Steuerungselemente am unteren Rand, fest positioniert -->
+            <div class="flex flex-col items-center w-full pb-8 pt-4 flex-shrink-0">
+                <div class="flex items-center justify-center space-x-6">
+                    <button id="play-button" onclick="togglePlayback()" class="bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </button>
+                    <button id="pause-button" onclick="togglePlayback()" class="hidden bg-gray-800 text-white p-6 rounded-full shadow-xl hover:bg-gray-700 transition-transform transform hover:scale-105 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                    </button>
+                    <button id="stop-button" onclick="stopPlayback()" class="bg-red-100 text-red-600 p-4 rounded-full hover:bg-red-200 transition-colors flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                    </button>
                 </div>
+                <p class="text-xs text-gray-400 mt-6 uppercase tracking-widest">Die Geschichte endet, wenn der Timer abläuft</p>
             </div>
         </div>
         
-
         <!-- Message Modal -->
         <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
@@ -260,19 +482,19 @@
             </div>
         </div>
         <!-- PROFIL-MODAL -->
-<div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
-        <h2 class="text-xl font-bold mb-4 text-gray-800">Dein Profil</h2>
+        <div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full text-center">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">Dein Profil</h2>
 
-        <p class="text-gray-700 mb-2"><strong>Gestartete Routinen:</strong> <span id="profile-routines">0</span></p>
-        <p class="text-gray-700 mb-2"><strong>Gesamte Hörzeit:</strong> <span id="profile-time">0</span> min</p>
-        <p class="text-gray-700 mb-4"><strong>Letztes Genre:</strong> <span id="profile-last-genre">–</span></p>
+                <p class="text-gray-700 mb-2"><strong>Gestartete Routinen:</strong> <span id="profile-routines">0</span></p>
+                <p class="text-gray-700 mb-2"><strong>Gesamte Hörzeit:</strong> <span id="profile-time">0</span> min</p>
+                <p class="text-gray-700 mb-4"><strong>Letztes Genre:</strong> <span id="profile-last-genre">–</span></p>
 
-        <button onclick="hideProfile()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
-            Schließen
-        </button>
-    </div>
-</div>
+                <button onclick="hideProfile()" class="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                    Schließen
+                </button>
+            </div>
+        </div>
 
         
         <!-- Lade-Indikator -->
@@ -288,6 +510,370 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <!-- HINWEIS: Skripte wurden am Ende des body-Tags beibehalten, um die Struktur zu respektieren. -->
+    <script>
+        // Allgemeine Variablen und Zustände
+        let currentScreenId = 'splash-screen';
+        let history = [];
+        let selectedTimerMinutes = 15;
+        let selectedGenre = "Hörbuch";
+        let selectedVoice = "1";
+        let playbackTimeout = null;
+        let isPlaying = false;
+        let breathingInterval = null;
+
+        // Firebase Globals (Müssen hier deklariert werden, aber werden erst in script.js initialisiert)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let db;
+        let auth;
+        let userId = null;
+        let userStats = {
+            routines: 0,
+            totalTime: 0,
+            lastGenre: '–'
+        };
+
+        // Hilfsfunktionen
+        function showMessage(text) {
+            document.getElementById('modal-text').textContent = text;
+            document.getElementById('message-modal').classList.remove('hidden');
+            document.getElementById('message-modal').classList.add('flex');
+        }
+
+        function hideMessage() {
+            document.getElementById('message-modal').classList.add('hidden');
+            document.getElementById('message-modal').classList.remove('flex');
+        }
+
+        function showProfile() {
+             // Profil-Daten aktualisieren (mock data, da Firestore-Code fehlt)
+            document.getElementById('profile-routines').textContent = userStats.routines;
+            document.getElementById('profile-time').textContent = userStats.totalTime;
+            document.getElementById('profile-last-genre').textContent = userStats.lastGenre;
+
+            document.getElementById('profile-modal').classList.remove('hidden');
+            document.getElementById('profile-modal').classList.add('flex');
+        }
+
+        function hideProfile() {
+            document.getElementById('profile-modal').classList.add('hidden');
+            document.getElementById('profile-modal').classList.remove('flex');
+        }
+
+        function transitionToScreen(newScreenId) {
+            if (newScreenId === currentScreenId) return;
+
+            // Führe nur 'goBack' in die History ein, wenn es keine Zurück-Aktion ist (was goBack() intern handhabt)
+            if (newScreenId !== history[history.length - 1]) {
+                history.push(currentScreenId);
+            }
+            
+            const currentScreen = document.getElementById(currentScreenId);
+            const newScreen = document.getElementById(newScreenId);
+
+            if (currentScreen) {
+                currentScreen.classList.remove('visible-screen');
+                currentScreen.classList.add('hidden-screen');
+            }
+
+            if (newScreen) {
+                newScreen.classList.remove('hidden-screen');
+                newScreen.classList.add('visible-screen');
+            }
+
+            currentScreenId = newScreenId;
+            lucide.createIcons(); // Icons neu rendern falls nötig
+        }
+        
+        function transitionToMainMenu() {
+            // Spezieller Übergang vom Splash zum Main Menu, da hier keine "Zurück"-Funktion nötig ist
+            const splashScreen = document.getElementById('splash-screen');
+            const mainMenuScreen = document.getElementById('main-menu-screen');
+
+            splashScreen.classList.remove('visible-screen');
+            splashScreen.classList.add('hidden-screen');
+
+            mainMenuScreen.classList.remove('hidden-screen');
+            mainMenuScreen.classList.add('visible-screen');
+
+            currentScreenId = 'main-menu-screen';
+            // Da wir aus dem Splash kommen, leeren wir die History
+            history = [];
+            lucide.createIcons();
+        }
+
+        function goBack() {
+            if (history.length > 0) {
+                const previousScreenId = history.pop();
+                
+                const currentScreen = document.getElementById(currentScreenId);
+                const previousScreen = document.getElementById(previousScreenId);
+
+                if (currentScreen) {
+                    currentScreen.classList.remove('visible-screen');
+                    // Verwende eine umgekehrte Animation für 'Zurück' (z.B. translateX(100%) -> translateX(-100%))
+                    currentScreen.style.transform = 'translateX(100%)'; 
+                    currentScreen.classList.add('hidden-screen');
+                }
+
+                if (previousScreen) {
+                    previousScreen.classList.remove('hidden-screen');
+                    // Setze die Transformation für den zurückkehrenden Screen auf 0
+                    previousScreen.style.transform = 'translateX(0)';
+                    previousScreen.classList.add('visible-screen');
+                }
+                
+                // Kurze Verzögerung, um die Transformation zu ermöglichen, bevor die Klasse gesetzt wird
+                setTimeout(() => {
+                    if (currentScreen) currentScreen.style.transform = 'translateX(100%)';
+                }, 10);
+                
+
+                currentScreenId = previousScreenId;
+                lucide.createIcons();
+            } else {
+                // Fallback oder Standardverhalten, z.B. zum Hauptmenü
+                transitionToScreen('main-menu-screen');
+            }
+        }
+
+
+        function selectGenre(genre) {
+            selectedGenre = genre;
+            // Entferne 'active' von allen Buttons
+            document.querySelectorAll('.genre-button').forEach(btn => btn.classList.remove('active'));
+            
+            // Füge 'active' zum geklickten Button hinzu
+            // Da wir keinen expliziten ID-Selektor haben, suchen wir den Button über den Text oder Data-Attribut
+            const selectedButton = Array.from(document.querySelectorAll('.genre-button')).find(btn => btn.textContent.trim() === genre);
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+            }
+            
+            showMessage(`Genre auf "${genre}" gesetzt. Du kannst jetzt zur Routine-Auswahl zurückkehren.`);
+            // Optional: zurück zu den Einstellungen
+            // goBack(); 
+        }
+
+        function setTimerActive(element, minutes) {
+            selectedTimerMinutes = parseInt(minutes, 10);
+            
+            // Entferne 'active' von allen Timer-Buttons
+            document.querySelectorAll('#sleeptimer-selection-screen .timer-button').forEach(btn => btn.classList.remove('active'));
+            
+            // Füge 'active' zum geklickten Button hinzu
+            element.classList.add('active');
+            
+            // Optional: Feedback, welches Element gewählt wurde
+            const timeText = selectedTimerMinutes === 0 ? 'nach Ende der Geschichte' : `${selectedTimerMinutes} Minuten`;
+            const infoText = document.querySelector('#sleeptimer-selection-screen p.text-gray-500');
+            if (infoText) {
+                infoText.textContent = `Die Routine stoppt automatisch nach ${timeText}.`;
+            }
+        }
+
+        function updateVoiceSetting() {
+            const selectElement = document.getElementById('voice-select');
+            selectedVoice = selectElement.value;
+            // Hier könnte man TTS-Logik zur Vorbereitung einfügen
+        }
+
+        // Timer-Logik für den Playback-Screen (Simulation)
+        function startTimer(minutes) {
+            if (playbackTimeout) clearTimeout(playbackTimeout);
+
+            const countdownDisplay = document.getElementById('countdown-timer');
+            const endTime = Date.now() + minutes * 60 * 1000;
+
+            function updateCountdown() {
+                const now = Date.now();
+                const remaining = endTime - now;
+
+                if (remaining <= 0) {
+                    clearInterval(playbackTimeout);
+                    countdownDisplay.textContent = '00:00';
+                    stopPlayback();
+                    showMessage("Die Wiedergabe wurde gemäß Sleep-Timer beendet. Gute Nacht!");
+                    return;
+                }
+
+                const totalSeconds = Math.floor(remaining / 1000);
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+
+                const displayMins = String(mins).padStart(2, '0');
+                const displaySecs = String(secs).padStart(2, '0');
+                
+                countdownDisplay.textContent = `${displayMins}:${displaySecs}`;
+            }
+
+            // Startet den Timer, wenn Minuten > 0
+            if (minutes > 0) {
+                updateCountdown();
+                playbackTimeout = setInterval(updateCountdown, 1000);
+            } else {
+                countdownDisplay.textContent = '--:-- (Ende der Geschichte)';
+            }
+        }
+
+
+        // Playback Funktionen (Simulation)
+        function togglePlayback() {
+            const playButton = document.getElementById('play-button');
+            const pauseButton = document.getElementById('pause-button');
+
+            if (isPlaying) {
+                // Pause
+                isPlaying = false;
+                playButton.classList.remove('hidden');
+                pauseButton.classList.add('hidden');
+                document.getElementById('loading-status').textContent = 'Pausiert.';
+                if (playbackTimeout) clearInterval(playbackTimeout);
+                // Hier würde die Audio-Pausier-Logik stehen
+                showMessage("Wiedergabe pausiert.");
+            } else {
+                // Play
+                isPlaying = true;
+                playButton.classList.add('hidden');
+                pauseButton.classList.remove('hidden');
+                document.getElementById('loading-status').textContent = 'Wird abgespielt...';
+                
+                // Setze den Timer neu fort, wenn er aktiv ist
+                if (selectedTimerMinutes > 0) {
+                    // Startet den Timer bei 100% der gewählten Zeit (einfache Simulation)
+                    startTimer(selectedTimerMinutes);
+                } else {
+                    document.getElementById('countdown-timer').textContent = '--:-- (Ende der Geschichte)';
+                }
+                
+                // Hier würde die Audio-Start/Resume-Logik stehen
+                showMessage("Wiedergabe gestartet. Schlaf gut.");
+                
+            }
+        }
+
+        function stopPlayback() {
+            isPlaying = false;
+            document.getElementById('play-button').classList.remove('hidden');
+            document.getElementById('pause-button').classList.add('hidden');
+            document.getElementById('loading-status').textContent = 'Beendet.';
+            if (playbackTimeout) clearInterval(playbackTimeout);
+            
+            // Hier würde die Audio-Stopp-Logik stehen
+            
+            // Zurück zum Hauptmenü (oder Sleep-Timer-Auswahl)
+            transitionToScreen('main-menu-screen'); 
+        }
+
+        // Simulationsfunktion für den Start der Routine (wird nach Atemübung aufgerufen)
+        function startRoutine() {
+            // Zeige Lade-Overlay
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            document.getElementById('loading-overlay').classList.add('flex');
+
+            // Simuliere Ladezeit
+            setTimeout(() => {
+                // Lade-Overlay verstecken
+                document.getElementById('loading-overlay').classList.add('hidden');
+                document.getElementById('loading-overlay').classList.remove('flex');
+                
+                // Aktualisiere Playback Screen Details (Simulation)
+                document.getElementById('current-content-title').textContent = "Sanfte Waldspaziergänge";
+                document.getElementById('current-content-genre').textContent = selectedGenre;
+                document.getElementById('loading-status').textContent = 'Wird abgespielt...';
+                document.getElementById('playback-title').textContent = selectedTimerMinutes === 0 ? "Kein Timer" : `${selectedTimerMinutes} Min. Timer`;
+                
+                // Start Playback Screen und Timer
+                transitionToScreen('playback-screen');
+                startTimer(selectedTimerMinutes);
+                isPlaying = true;
+                document.getElementById('play-button').classList.add('hidden');
+                document.getElementById('pause-button').classList.remove('hidden');
+
+                // Update User Stats (Simulation)
+                userStats.routines += 1;
+                userStats.totalTime += selectedTimerMinutes > 0 ? selectedTimerMinutes : 20; // Schätzung, falls 0
+                userStats.lastGenre = selectedGenre;
+
+            }, 2000); // 2 Sekunden Ladezeit-Simulation
+        }
+        
+        // Atemübungs-Logik
+        function startBreathingExercise() {
+            transitionToScreen('breathing-screen');
+            let cycle = 0; // 0: Einatmen, 1: Halten, 2: Ausatmen, 3: Halten
+
+            const circle = document.querySelector('.breathing-circle');
+            const textElement = document.getElementById('breathing-text');
+            
+            // Animation für Ein/Aus
+            function animateBreathing() {
+                // Zurücksetzen für den neuen Zyklus
+                circle.style.transitionDuration = '0s';
+                circle.style.transform = 'scale(1)'; 
+                circle.classList.remove('animate'); 
+
+                // Phase 1: Einatmen (4 Sekunden)
+                setTimeout(() => {
+                    textElement.textContent = 'Einatmen (4)';
+                    circle.style.transitionDuration = '4s';
+                    circle.style.transform = 'scale(1.2)';
+                }, 100); 
+
+                // Phase 2: Halten (4 Sekunden)
+                setTimeout(() => {
+                    textElement.textContent = 'Halten (4)';
+                    circle.style.transitionDuration = '0s';
+                }, 4100);
+
+                // Phase 3: Ausatmen (6 Sekunden)
+                setTimeout(() => {
+                    textElement.textContent = 'Ausatmen (6)';
+                    circle.style.transitionDuration = '6s';
+                    circle.style.transform = 'scale(1)';
+                }, 8100);
+
+                // Phase 4: Halten (2 Sekunden)
+                setTimeout(() => {
+                    textElement.textContent = 'Halten (2)';
+                    circle.style.transitionDuration = '0s';
+                }, 14100);
+            }
+            
+            // Starte den ersten Zyklus
+            animateBreathing();
+            breathingInterval = setInterval(animateBreathing, 16000); // 4+4+6+2 = 16 Sekunden Zyklus
+        }
+
+        function skipBreathing() {
+            if (breathingInterval) {
+                clearInterval(breathingInterval);
+            }
+            // Starte die eigentliche Routine
+            startRoutine();
+        }
+
+        // Initialisierung
+        window.onload = function() {
+            // Initialisiere Lucide Icons
+            lucide.createIcons();
+            
+            // Setze den initial aktiven Timer-Button
+            const activeTimerButton = document.querySelector(`.timer-button[data-minutes="${selectedTimerMinutes}"]`);
+            if (activeTimerButton) {
+                activeTimerButton.classList.add('active');
+            }
+        };
+
+        // Simuliere Firebase Initialisierung (für Canvas-Umgebung, da Imports fehlen)
+        // In einer realen App müssten hier die Firebase-Module importiert und initialisiert werden.
+        // const app = initializeApp(firebaseConfig);
+        // db = getFirestore(app);
+        // auth = getAuth(app);
+        // ... Logik für signInWithCustomToken oder signInAnonymously ...
+    </script>
 </body>
 </html>
