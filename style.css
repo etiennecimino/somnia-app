@@ -1,16 +1,19 @@
-/* --- FIX für iPhone / kleine Screens: sichere Höhe --- */
-:root {
-    --safe-height: 100svh; /* berücksichtigt iPhone Notch + Safari UI */
-}
-
+/* style.css */
 /* Konfigurieren der Hauptfarben basierend auf den Wireframes */
 :root {
     --color-dark-blue: #2B4162; 
     --color-light-bg: #F5F5E0; 
-    --color-accent: #E95E95; 
-    --color-button-soft: #BEE3DB; 
 
-    /* Neue Farben für die Genre-Auswahl */
+    /* ✅ EINZIGE AKZENTFARBE: Himmelblau + Abstufungen */
+    --color-accent: #7EC8E3;          /* Himmelblau */
+    --color-accent-soft: #A9DBEE;     /* hell */
+    --color-accent-strong: #4FA3C7;   /* dunkler */
+
+    /* ✅ kein Grün mehr, ersetzen wir durch helles Himmelblau */
+    --color-button-soft: #A9DBEE;
+
+    /* Neue Farben für die Genre-Auswahl (werden aktuell nicht mehr als Button-Farbe genutzt,
+       weil Genre-Buttons "pill" grau + Akzent aktiv sind – aber lassen wir drin) */
     --color-genre-1: #C9D9E9;
     --color-genre-2: #B0C4DE;
     --color-genre-3: #FFFFFF;
@@ -27,7 +30,7 @@ body {
 .app-container {
     width: 100%;
     max-width: 480px; 
-    height: var(--safe-height); /* <<< NEU: sicher für iPhones */
+    height: 100vh;
     margin: 0 auto;
     position: relative;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
@@ -118,22 +121,14 @@ body {
 
 #settings-menu-screen, 
 #genre-selection-screen,
-#sleeptimer-selection-screen {
+#sleeptimer-selection-screen,
+#playback-screen { 
     background-image: url('./Somnia-Bilder/genrescreen.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     padding: 24px;
-
-    display: flex;
-    flex-direction: column;
-
-    height: 100svh; /* iPhone Safe Height */
-    overflow-y: auto; /* Scrollbar falls nötig */
-
-    padding-bottom: env(safe-area-inset-bottom, 30px); /* Platz für Button */
-}
-
+    justify-content: flex-start;
 }
 
 /* ********************************************* */
@@ -141,8 +136,8 @@ body {
 /* ********************************************* */
 
 .atemuebung {
-    background-image: url('./Somnia-Bilder/atmen.png');
-    background-color: #a0d3f5;
+   background-image: url('./Somnia-Bilder/atmen.png');
+    background-color: #a0d3f5; /* Hellblaues Fallback */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -150,21 +145,17 @@ body {
 
 /* Animation: Atmen */
 @keyframes breathe {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.4);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
 }
 
 .breathing-circle {
     animation: breathe 8s ease-in-out infinite;
     box-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
 }
+
+/* --------------------------------------------- */
 
 .settings-menu-item {
     width: 100%;
@@ -194,38 +185,17 @@ body {
     margin-top: 2rem;
 }
 
-.genre-button {
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-dark-blue);
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-    border: 3px solid transparent;
-}
-
-.genre-button:active {
-    transform: scale(0.98);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.genre-button.active {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 10px rgba(233, 94, 149, 0.5);
-}
-
+/* ===========================
+   TIMER BUTTONS (+10%)
+   =========================== */
 .timer-button {
     width: 100%;
-    padding: 1rem;
+    padding: 1.1rem;                   /* ✅ +10% (war 1rem) */
     background-color: white;
     border: 1px solid #E0E0E0;
-    border-radius: 0.75rem;
+    border-radius: 0.825rem;           /* ✅ +10% (war 0.75rem) */
     text-align: center;
-    font-size: 1.125rem;
+    font-size: 1.2375rem;              /* ✅ +10% (war 1.125rem) */
     color: var(--color-dark-blue);
     font-weight: 500;
     transition: background-color 0.1s, font-weight 0.1s;
@@ -237,8 +207,8 @@ body {
 
 .timer-button.active {
     font-weight: 800;
-    background-color: var(--color-button-soft);
-    border-color: var(--color-button-soft);
+    background-color: var(--color-accent-soft);
+    border-color: var(--color-accent);
 }
 
 #voice-selection-screen {
@@ -250,38 +220,6 @@ body {
     justify-content: flex-start;
 }
 
-/* Neuer Skip-Button */
-.breathing-skip-button {
-    width: 100%;
-    padding: 1rem;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-
-    background-color: var(--color-button-soft);
-    color: var(--color-dark-blue);
-
-    border: 2px solid var(--color-dark-blue);
-    border-radius: 1rem;
-
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-
-    transition: all 0.2s ease-in-out;
-}
-
-.breathing-skip-button:hover {
-    background-color: #d9f4ee;
-    transform: scale(1.03);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-}
-
-.breathing-skip-button:active {
-    transform: scale(0.97);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-}
-
 #profile-modal {
     display: none;
 }
@@ -290,6 +228,7 @@ body {
     display: flex;
 }
 
+/* ----- Individueller Hintergrund für den PLAYBACK-SCREEN ----- */
 #playback-screen {
     background-image: url('./Somnia-Bilder/playscreen.png');
     background-size: cover;
@@ -297,3 +236,371 @@ body {
     background-repeat: no-repeat;
 }
 
+/* =====================================================
+   PRIMARY BUTTON (Text-Breite +10%)
+   ===================================================== */
+
+.primary-button {
+    display: inline-flex;              /* ✅ */
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;                /* ✅ passt sich der Schriftlänge an */
+    max-width: 100%;                   /* ✅ nicht über den Screen */
+    padding: 0.825rem 1.65rem;         /* ✅ +10% */
+    margin-top: 2rem;
+
+    background-color: white;
+    color: #1f2937;
+
+    font-size: 0.9625rem;              /* ✅ +10% */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+
+    border-radius: 9999px;
+    border: none;
+
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+
+    white-space: normal;
+}
+
+.primary-button:hover {
+    background-color: #EAF6FB;
+    transform: translateY(-1px);
+}
+
+.primary-button:active {
+    transform: scale(0.97);
+}
+
+/* =====================================================
+   SETTINGS BUTTONS (Genre / Stimme) (+10%)
+   ===================================================== */
+
+.settings-button {
+    width: 100%;
+    max-width: 352px;                  /* ✅ +10% */
+    padding: 1.265rem 0;               /* ✅ +10% */
+
+    background: rgba(120, 120, 120, 0.55);
+    backdrop-filter: blur(4px);
+
+    color: #ffffff;
+    font-size: 1.375rem;               /* ✅ +10% */
+    font-weight: 700;
+
+    text-align: center;
+
+    border: none;
+    border-radius: 9999px;
+
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.settings-button:hover {
+    background: rgba(120, 120, 120, 0.7);
+    transform: translateY(-1px);
+}
+
+.settings-button:active {
+    transform: scale(0.97);
+}
+
+/* =====================================================
+   GENRE BUTTONS – pill +10% (nur 1 Definition!)
+   ===================================================== */
+
+.genre-button {
+    height: 88px;                      /* ✅ +10% (war 80px) */
+    width: 100%;
+
+    background: rgba(120, 120, 120, 0.45);
+    backdrop-filter: blur(4px);
+
+    color: white;
+    font-size: 1.21rem;                /* ✅ +10% */
+    font-weight: 700;
+
+    border-radius: 9999px;
+    border: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.genre-button:hover {
+    background: rgba(120, 120, 120, 0.65);
+}
+
+.genre-button:active {
+    transform: scale(0.97);
+}
+
+/* ✅ Aktives Genre (Himmelblau als Akzentfarbe) */
+.genre-button.active {
+    background: rgba(126, 200, 227, 0.8);
+    box-shadow: 0 0 12px rgba(126, 200, 227, 0.6);
+}
+
+/* =====================================================
+   SETTINGS BUTTONS – NUR Buttons vertikal zentrieren
+   ===================================================== */
+
+#settings-menu-screen {
+    justify-content: flex-start;
+}
+
+.settings-buttons-wrapper {
+    margin-top: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* =====================================================
+   GENRE BUTTONS – NUR Buttons vertikal zentrieren
+   ===================================================== */
+
+.genre-buttons-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =====================================================
+   Atemübung: lebender Kreis (Farbwechsel + Shadow + Text-Fade)
+   ===================================================== */
+
+.breathing-circle {
+    transition: transform 4s ease-in-out, box-shadow 1.2s ease, background-color 1.2s ease;
+    background-color: rgba(255, 255, 255, 0.92); /* neutral */
+}
+
+.breathing-circle.inhale {
+    background-color: rgba(126, 200, 227, 0.35);
+    box-shadow: 0 0 28px rgba(126, 200, 227, 0.55);
+}
+
+.breathing-circle.exhale {
+    background-color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.08);
+}
+
+#breathing-text {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+#breathing-text.fade-out {
+    opacity: 0;
+    transform: translateY(2px);
+}
+
+/* ============================
+   COOLER BREATHING CIRCLE (Glow + Ripple + Smooth)
+   ============================ */
+
+#breathing-text {
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+#breathing-text.fade-out {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.breathing-circle {
+  position: relative;
+  overflow: visible;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 0 0 10px rgba(126, 200, 227, 0.10),
+    0 0 30px rgba(126, 200, 227, 0.25),
+    0 20px 35px rgba(0, 0, 0, 0.18);
+  transform: scale(1);
+  transition: transform 900ms ease-in-out, box-shadow 900ms ease-in-out;
+}
+
+.breathing-circle::before,
+.breathing-circle::after {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 9999px;
+  pointer-events: none;
+  border: 2px solid rgba(126, 200, 227, 0.25);
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+@keyframes ripple {
+  0%   { opacity: 0.0; transform: scale(0.92); }
+  20%  { opacity: 0.35; }
+  100% { opacity: 0.0; transform: scale(1.35); }
+}
+
+.breathing-circle::before {
+  animation: ripple 4s ease-out infinite;
+}
+.breathing-circle::after {
+  animation: ripple 4s ease-out infinite;
+  animation-delay: 1.2s;
+}
+
+.breathing-circle.inhale {
+  transform: scale(1.22);
+  box-shadow:
+    0 0 0 14px rgba(126, 200, 227, 0.14),
+    0 0 45px rgba(126, 200, 227, 0.38),
+    0 30px 50px rgba(0, 0, 0, 0.20);
+}
+
+.breathing-circle.exhale {
+  transform: scale(0.98);
+  box-shadow:
+    0 0 0 10px rgba(126, 200, 227, 0.10),
+    0 0 26px rgba(126, 200, 227, 0.22),
+    0 18px 32px rgba(0, 0, 0, 0.16);
+}
+
+#breathing-screen .animate-pulse {
+  opacity: 0.18 !important;
+}
+
+/* Stop Button bleibt klar sichtbar */
+#stop-button {
+    position: relative;
+    z-index: 10;
+}
+
+/* =========================================
+   PLAYBACK: DIM IN STUFEN (nur Playback)
+   Startet über JS nach 10s
+   ========================================= */
+
+#playback-screen {
+  position: relative;
+}
+
+#playback-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,1);
+  opacity: 0;
+  transition: opacity 1200ms ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#playback-screen > * {
+  position: relative;
+  z-index: 6;
+}
+
+#playback-screen.playback-dim-1 *:not(#stop-button):not(#stop-button *),
+#playback-screen.playback-dim-2 *:not(#stop-button):not(#stop-button *),
+#playback-screen.playback-dim-3 *:not(#stop-button):not(#stop-button *),
+#playback-screen.playback-dim-4 *:not(#stop-button):not(#stop-button *),
+#playback-screen.playback-dim-5 *:not(#stop-button):not(#stop-button *) {
+  transition: opacity 1200ms ease;
+}
+
+#playback-screen.playback-dim-1::before { opacity: 0.12; }
+#playback-screen.playback-dim-1 *:not(#stop-button):not(#stop-button *) { opacity: 0.85; }
+
+#playback-screen.playback-dim-2::before { opacity: 0.22; }
+#playback-screen.playback-dim-2 *:not(#stop-button):not(#stop-button *) { opacity: 0.68; }
+
+#playback-screen.playback-dim-3::before { opacity: 0.34; }
+#playback-screen.playback-dim-3 *:not(#stop-button):not(#stop-button *) { opacity: 0.50; }
+
+#playback-screen.playback-dim-4::before { opacity: 0.48; }
+#playback-screen.playback-dim-4 *:not(#stop-button):not(#stop-button *) { opacity: 0.33; }
+
+#playback-screen.playback-dim-5::before { opacity: 0.62; }
+#playback-screen.playback-dim-5 *:not(#stop-button):not(#stop-button *) { opacity: 0.18; }
+
+/* =====================================================
+   DIM-PATCH (nur Playback) – kompatibel zu .playback-dim
+   ===================================================== */
+#playback-screen.playback-dim::before{
+  opacity: 0.34;
+}
+#playback-screen.playback-dim *:not(#stop-button):not(#stop-button *){
+  opacity: 0.50;
+}
+
+/* ===========================
+   SLEEP CHECK-IN (Emoji)
+   =========================== */
+.sleep-emoji-row {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.sleep-emoji-btn {
+  font-size: 3rem;
+  line-height: 1;
+  padding: 0.9rem 1.1rem;
+  border-radius: 9999px;
+  border: 2px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.75);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.sleep-emoji-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.95);
+}
+
+.sleep-emoji-btn:active {
+  transform: scale(0.97);
+}
+
+/* optional: kleiner Graph im Profil */
+.sleep-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 90px;
+  margin-top: 0.75rem;
+}
+
+.sleep-bar {
+  width: 10px;
+  border-radius: 9999px;
+  background: rgba(126, 200, 227, 0.75);
+  opacity: 0.9;
+}
+
+.sleep-bar.mood-1 { opacity: 0.25; }
+.sleep-bar.mood-2 { opacity: 0.55; }
+.sleep-bar.mood-3 { opacity: 0.9; }
+
+/* =========================================
+   CHECK-IN SCREEN – Background Placeholder
+   ========================================= */
+#sleep-checkin-screen {
+  background-image: url("./Somnia-Bilder/Schlafcheck1.jpg"); /* placeholder */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
